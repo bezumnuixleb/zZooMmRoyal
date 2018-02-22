@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zZooMmRoyal", "zZooMmRoyal\zZooMmRoyal.csproj", "{9B34F43D-EDE7-4848-AF02-F49057380B46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoyalServer", "RoyalServer\RoyalServer.csproj", "{CE747B2C-8114-49D7-BCF0-8792E6CFF67F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "zZooMm001", "zZooMm\zZooMm001.csproj", "{3A534CB0-3973-4C39-B99F-0C620688F3A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{CE747B2C-8114-49D7-BCF0-8792E6CFF67F}.Debug|x86.Build.0 = Debug|x86
 		{CE747B2C-8114-49D7-BCF0-8792E6CFF67F}.Release|x86.ActiveCfg = Release|x86
 		{CE747B2C-8114-49D7-BCF0-8792E6CFF67F}.Release|x86.Build.0 = Release|x86
+		{3A534CB0-3973-4C39-B99F-0C620688F3A6}.Debug|x86.ActiveCfg = Debug|x86
+		{3A534CB0-3973-4C39-B99F-0C620688F3A6}.Debug|x86.Build.0 = Debug|x86
+		{3A534CB0-3973-4C39-B99F-0C620688F3A6}.Release|x86.ActiveCfg = Release|x86
+		{3A534CB0-3973-4C39-B99F-0C620688F3A6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
