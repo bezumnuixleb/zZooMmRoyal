@@ -29,8 +29,39 @@ namespace zZooMmRoyal
 
             client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
             client.FlushSendQueue();
+            
         }
+        public void GetInfo(star player, Queue<Msg> msglist)
+        {
 
+            while (true) {
+
+               
+
+             
+           
+                NetIncomingMessage info = client.ReadMessage();
+                if ((info != null))
+                {
+                    switch (info.MessageType)
+                    {
+                        case NetIncomingMessageType.Data:
+                            {
+                                String data = info.ReadString();
+                                player.changepos(data);
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                else //recconect
+                    continue;
+               
+              //  System.Threading.Thread.Sleep(10);
+            }
+        }
         public void Disconnect()
         {
             client.Disconnect("Bye");

@@ -10,9 +10,13 @@ namespace zZooMmRoyal
 {
     public class Object
     {
-        protected Texture2D _texture;
+        public Texture2D _texture;
         public Vector2 _position;
         public String _Type;
+        public Object()
+        {
+            _texture = null ;
+        }
         public Object(Texture2D ntext)
         {
             _texture = ntext;

@@ -26,7 +26,7 @@ namespace RoyalServer
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // server.StartServer();
-            
+         
             server.StartServer();
             Thread msgchecker = new Thread(() => server.ReadMessages(playerlist));
             msgchecker.Start();
@@ -104,6 +104,7 @@ namespace RoyalServer
                     {
                         var data = msg.ReadString();
                         String[] mas = data.Split();
+                        if(mas[1]=="getInfo")
                         foreach (var player in playerlist)
                         {
                             if (mas[0] == player._Type)

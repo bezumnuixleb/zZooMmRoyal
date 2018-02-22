@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace zZooMmRoyal
 {
@@ -19,11 +21,22 @@ namespace zZooMmRoyal
         star player;
         Client client=new Client();
         List<Object> objlist = new List<Object>();
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-           
+            client.StartClient();
+            player = new star()
+            {
+                _position = new Vector2(0, 0),
+                _Type = "star",
+                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
+            };
+
+            Thread msgchecker = new Thread(() => client.GetInfo(player, msglist));
+            msgchecker.Start();
+            
         }
 
         /// <summary>
@@ -46,13 +59,13 @@ namespace zZooMmRoyal
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             Texture2D text = Content.Load<Texture2D>("test");
-            player = new star(text)
-            {
-                _position = new Vector2(0, 0), _Type = "star",
-                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
-            };
-            client.StartClient();
+            player._texture = text;
+            
+           
+         
+
         }
 
         /// <summary>
@@ -71,17 +84,24 @@ namespace zZooMmRoyal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // client.GetInfo(player);
             //give coords
             //zagruzka s servera
+            foreach (var msg in msglist)
+            {
+                String tmp = player._Type+" neInfo ";
+                tmp += msg._type;
+                
+                client.SendMessage(tmp);
+                
+            }
+            msglist.Clear();
+            client.SendMessage(player._Type + " " + "giveINFO"); ;
             player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            foreach (var msg in msglist)
-            {
-                client.SendMessage("star "+msg._type);
-            }
-            msglist.Clear();
+            
             base.Update(gameTime);
         }
 

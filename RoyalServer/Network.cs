@@ -41,9 +41,21 @@ namespace RoyalServer
                                 {
                                     if (mas[0] == player._Type)
                                     {
-                                        player.buttons.Add(mas[1]);
+                                        if (mas[1]!= "giveINFO")
+                                        player.buttons.Add(mas[2]);
                                     }
                                 }
+
+                                if (mas[1] == "giveINFO")
+                                {
+                                    NetOutgoingMessage inform = server.CreateMessage(
+                                        Convert.ToString(playerlist.ToArray()[0]._position.X)+
+                                        " "+Convert.ToString(playerlist.ToArray()[0]._position.Y)
+                                        );
+                                    server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+                                   
+                                }
+                                
 
                                 break;
                             }
