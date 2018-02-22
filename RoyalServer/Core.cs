@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace RoyalServer
 {
-    class Object
+   public class Object
     {
-        //[eqqeqeqeqwe 
-        //sdfsdfds
         protected Texture2D _texture;
         public Vector2 _position;
         public String _Type;
@@ -28,6 +26,7 @@ namespace RoyalServer
         {
 
         }
-        //yarik dcp
     }
+
+    
 }
