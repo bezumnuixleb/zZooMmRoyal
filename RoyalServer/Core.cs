@@ -11,6 +11,8 @@ namespace RoyalServer
 {
     class Object
     {
+        //[eqqeqeqeqwe 
+        //sdfsdfds
         protected Texture2D _texture;
         public Vector2 _position;
         public String _Type;
