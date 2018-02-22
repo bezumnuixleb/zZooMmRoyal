@@ -20,8 +20,6 @@ namespace zZooMm001
         public Input _input;
 
         public float _rotation = 3f;
-        public float _rotationSpeed = 3f;
-        public float _rotationLinear = 4f;
 
         public Plain(Texture2D texture)
         {
@@ -49,7 +47,7 @@ namespace zZooMm001
             //ПОВОРОТ ЗА МЫШКОЙ
             /////////////////////////////////////////////////////
 
-            var directory = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - _rotation), -(float)Math.Sin(MathHelper.ToRadians(90) - _rotation));
+            // var directory = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - _rotation), -(float)Math.Sin(MathHelper.ToRadians(90) - _rotation));
 
             if (_input == null)
                 return;
@@ -63,11 +61,11 @@ namespace zZooMm001
             }
             if (Keyboard.GetState().IsKeyDown(_input.Up))
             {
-                _position += directory * _speed;
+                _position.Y -= _speed;
             }
             if (Keyboard.GetState().IsKeyDown(_input.Down))
             {
-                _position -= directory * _speed;
+                _position.Y +=  _speed;
             }
 
         }
