@@ -33,20 +33,23 @@ namespace zZooMmRoyal
                 return;
             if (keybord.IsKeyDown(_input.Left))
             {
-
                 msglist.Enqueue(new Msg{_type="Left"});
+                _position.X -= _speed;
             }
             if (keybord.IsKeyDown(_input.Right))
             {
                 msglist.Enqueue(new Msg { _type = "Right" });
+                _position.X += _speed;
             }
             if (keybord.IsKeyDown(_input.Up))
             {
                 msglist.Enqueue(new Msg { _type = "Up" });
+                _position.Y -= _speed;
             }
             if (keybord.IsKeyDown(_input.Down))
             {
                 msglist.Enqueue(new Msg { _type = "Down" });
+                _position.Y += _speed;
             }
 
         }

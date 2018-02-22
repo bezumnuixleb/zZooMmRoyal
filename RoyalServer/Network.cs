@@ -15,7 +15,7 @@ namespace RoyalServer
 
         public void StartServer()
         {
-            var config = new NetPeerConfiguration("zzoomm") { Port = 14242 };
+            var config = new NetPeerConfiguration("hej") { Port = 14242 };
             server = new NetServer(config);
             server.Start();
 

@@ -17,19 +17,19 @@ namespace RoyalServer
         public List<Object> objlist = new List<Object>();
         public List<Msg> mslist = new List<Msg>();
         // public Server server = new Server();
-        NetServer server;
+        public Server server = new Server();
         Texture2D text;
+    
         //server.Start();
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // server.StartServer();
-
-            NetPeerConfiguration config = new NetPeerConfiguration("MyExampleName");
-            config.Port = 14242;
-
-            server = new NetServer(config);
+            
+            server.StartServer();
+            Thread msgchecker = new Thread(() => server.ReadMessages(playerlist));
+            msgchecker.Start();
         }
 
         protected override void Initialize()
@@ -64,16 +64,15 @@ namespace RoyalServer
         {
             //polychenie msg
             //zapysti menya v potok
-            NetIncomingMessage msg;
-            while ((msg = server.ReadMessage()) != null)
-            {
-                msgcheck(msg, playerlist);
-                server.Recycle(msg);
-            }
+           //start other thread
+
+            
+            //other thread
 
             foreach (var player  in playerlist)
             {
                 player.Update(gameTime, objlist);
+                player.buttons.Clear();
             }
             // main update
 

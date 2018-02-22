@@ -17,21 +17,13 @@ namespace zZooMmRoyal
         SpriteBatch spriteBatch;
         Queue<Msg> msglist = new Queue<Msg>();
         star player;
-        NetClient client;
+        Client client=new Client();
         List<Object> objlist = new List<Object>();
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            var config = new NetPeerConfiguration("hej");
-            config.AutoFlushSendQueue = false;
-            client = new NetClient(config);
-            client.Start();
-
-            string ip = "localhost";
-            int port = 14242;
-            client.Connect(ip, port);
-
+           
         }
 
         /// <summary>
@@ -60,6 +52,7 @@ namespace zZooMmRoyal
                 _position = new Vector2(0, 0), _Type = "star",
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
             };
+            client.StartClient();
         }
 
         /// <summary>
@@ -78,6 +71,7 @@ namespace zZooMmRoyal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //give coords
             //zagruzka s servera
             player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -85,10 +79,9 @@ namespace zZooMmRoyal
 
             foreach (var msg in msglist)
             {
-                NetOutgoingMessage message = client.CreateMessage("star "+msg._type);
-                client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
-                client.FlushSendQueue();
+                client.SendMessage("star "+msg._type);
             }
+            msglist.Clear();
             base.Update(gameTime);
         }
 

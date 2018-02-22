@@ -17,10 +17,10 @@ namespace ConsoleServer
         {
             var server = new Server();
             server.StartServer();
-            Texture2D ntext=
-            List<star> playerlist = new List<star>() {new star(ntext) };
             
-            server.ReadMessages();
+            List<star> playerlist = new List<star>() {new star(null) };
+            
+            server.ReadMessages(playerlist);
         }
     }
 }
