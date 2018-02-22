@@ -11,10 +11,10 @@ namespace zZooMmRoyal
 {
     class star : Object
     {
-        Input _input;
-        float _speed=2f;
-        KeyboardState _current;
-        KeyboardState _prev;
+        public Input _input;
+        public float _speed=2f;
+        public KeyboardState _current;
+        public KeyboardState _prev;
 
         public star(Texture2D ntext) : base(ntext)
         {

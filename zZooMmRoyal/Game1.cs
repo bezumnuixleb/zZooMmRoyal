@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Lidgren.Network;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -16,10 +17,21 @@ namespace zZooMmRoyal
         SpriteBatch spriteBatch;
         Queue<Msg> msglist = new Queue<Msg>();
         star player;
+        NetClient client;
+        List<Object> objlist = new List<Object>();
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            var config = new NetPeerConfiguration("hej");
+            config.AutoFlushSendQueue = false;
+            client = new NetClient(config);
+            client.Start();
+
+            string ip = "localhost";
+            int port = 14242;
+            client.Connect(ip, port);
+
         }
 
         /// <summary>
@@ -42,7 +54,12 @@ namespace zZooMmRoyal
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
+            Texture2D text = Content.Load<Texture2D>("test");
+            player = new star(text)
+            {
+                _position = new Vector2(0, 0), _Type = "star",
+                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
+            };
         }
 
         /// <summary>
@@ -62,13 +79,15 @@ namespace zZooMmRoyal
         protected override void Update(GameTime gameTime)
         {
             //zagruzka s servera
-
+            player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             foreach (var msg in msglist)
             {
-                //otpravka na server
+                NetOutgoingMessage message = client.CreateMessage("star "+msg._type);
+                client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
+                client.FlushSendQueue();
             }
             base.Update(gameTime);
         }
