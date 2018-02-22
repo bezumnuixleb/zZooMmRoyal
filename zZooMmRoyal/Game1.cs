@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 
 namespace zZooMmRoyal
 {
@@ -11,7 +14,8 @@ namespace zZooMmRoyal
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Queue<Msg> msglist = new Queue<Msg>();
+        star player;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -26,8 +30,7 @@ namespace zZooMmRoyal
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
+           
             base.Initialize();
         }
 
@@ -39,7 +42,6 @@ namespace zZooMmRoyal
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -59,11 +61,15 @@ namespace zZooMmRoyal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //zagruzka s servera
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-
+            foreach (var msg in msglist)
+            {
+                //otpravka na server
+            }
             base.Update(gameTime);
         }
 
@@ -74,8 +80,10 @@ namespace zZooMmRoyal
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            spriteBatch.Begin();
+            player.Draw(spriteBatch);
             // TODO: Add your drawing code here
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
