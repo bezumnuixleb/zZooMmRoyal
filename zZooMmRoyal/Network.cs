@@ -18,7 +18,7 @@ namespace zZooMmRoyal
             client = new NetClient(config);
             client.Start();
 
-            string ip = "localhost";
+            string ip = "31.132.141.5";
             int port = 14242;
             client.Connect(ip, port);
         }
