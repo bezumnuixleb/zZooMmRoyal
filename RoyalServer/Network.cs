@@ -74,6 +74,11 @@ namespace RoyalServer
                                             )
                                             );
                                             server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+                                            //send info about other players
+                                            String Tmps = "" + player._id + " Objects";
+                                            
+                                            NetOutgoingMessage statistic = server.CreateMessage(CreateMsgAboutPlayers(Tmps, playerlist, player._id));
+                                            server.SendMessage(statistic, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
                                             continue;
 
                                         }
@@ -121,6 +126,32 @@ namespace RoyalServer
                     }
                     server.Recycle(message);
                 }
+            }
+        }
+
+        public String CreateMsgAboutPlayers(String msg, List<PlayerS> playerlist,String currentid)
+        {
+            int objcounter = 0;
+            String toadding = "";
+            foreach (var obj in playerlist)
+            {
+                if (obj._Type == "Player" && obj._id != currentid)
+                {
+                    objcounter++;
+                    String s = "Other_Player ";
+                    s +=obj._position.X + " " + obj._position.Y+" "+obj._rotation;
+                    toadding += s;
+                }
+                //other obj
+            }
+            if (objcounter != 0)
+            {
+                msg += " "+objcounter.ToString()+" " + toadding;
+                return msg;
+            }
+            else
+            {
+                msg += " error"; return msg;
             }
         }
     }

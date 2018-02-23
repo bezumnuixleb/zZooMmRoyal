@@ -14,7 +14,6 @@ namespace RoyalServer
         public String _name;
         public String _id;
 
-        public Vector2 Origin;
         public Vector2 _Size;
         public Vector2 _mPosition;
         public class PressedButtons
@@ -26,7 +25,6 @@ namespace RoyalServer
             }
         }
         public float _speed = 2f;
-        public float _rotation = 3f;
         public PressedButtons buttons;
         public PlayerS(Texture2D texture):base(texture)
         {
