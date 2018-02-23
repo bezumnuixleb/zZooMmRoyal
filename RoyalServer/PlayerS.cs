@@ -17,17 +17,12 @@ namespace RoyalServer
         public Vector2 Origin;
         public Vector2 _Size;
         public Vector2 _mPosition;
-        public class PressedButtons
-        {
-            public bool up,down,left,right;
-            public PressedButtons()
-            {
-                up = false;down = false;left = false;right = false;
-            }
-        }
+
+        public List<String> buttons;
+
+
         public float _speed = 2f;
         public float _rotation = 3f;
-        public PressedButtons buttons;
         public PlayerS(Texture2D texture):base(texture)
         {
             _mPosition = new Vector2(0,0);
@@ -36,26 +31,22 @@ namespace RoyalServer
         {
             //mouse pos getting
             Move();
-            MoveButtons();
+            //MoveButtons();
         }
-        public void MoveButtons()
+        public void MoveButtons(String msg)
         {
-            if (buttons.up)
-            {
-                _position.Y -= _speed;
-            }
-            if (buttons.down)
-            {
-                _position.Y += _speed;
-            }
-            if (buttons.right)
-            {
-                _position.X += _speed;
-            }
-            if (buttons.left)
-            {
-                _position.X -= _speed;
-            }
+
+        
+                switch (msg)
+                {
+                    case "Left": { _position.X -= _speed; } break;
+                    case "Right": { _position.X += _speed; } break;
+                    case "Up": { _position.Y -= _speed; } break;
+                    case "Down": { _position.Y += _speed; } break;
+                    default:
+                        break;
+                }
+
 
             //others buttons kek
         }

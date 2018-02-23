@@ -68,46 +68,27 @@ namespace zZooMmRoyal
             if (_input == null)
                 return;
             String tmp = "";
-            if (keybord.IsKeyDown(_input.Left)&&_prev.IsKeyUp(_input.Left))
+            if (keybord.IsKeyDown(_input.Left))
             {
-                tmp += _id+ " ButtonChange " + "Left_D";
+                tmp += _id+ " ButtonChange " + "Left";
                 msglist.Enqueue(tmp);
             }
-            if (keybord.IsKeyUp(_input.Left) && _prev.IsKeyDown(_input.Left))
+            if (keybord.IsKeyDown(_input.Right))
             {
-               tmp += _id + " ButtonChange " + "Left_U";
+               tmp += _id + " ButtonChange " + "Right";
                 msglist.Enqueue(tmp);
             }
-            if (keybord.IsKeyDown(_input.Right) && _prev.IsKeyUp(_input.Right))
+            if (keybord.IsKeyDown(_input.Up))
             {
-               tmp += _id + " ButtonChange " + "Right_D";
+               tmp += _id + " ButtonChange " + "Up";
                 msglist.Enqueue(tmp);
             }
-            if (keybord.IsKeyUp(_input.Right) && _prev.IsKeyDown(_input.Right))
+            if (keybord.IsKeyDown(_input.Down))
             {
-                tmp += _id + " ButtonChange " + "Right_U";
+                tmp += _id + " ButtonChange " + "Down";
                 msglist.Enqueue(tmp);
             }
-            if (keybord.IsKeyDown(_input.Up) && _prev.IsKeyUp(_input.Up))
-            {
-               tmp += _id + " ButtonChange " + "Up_D";
-                msglist.Enqueue(tmp);
-            }
-            if (keybord.IsKeyUp(_input.Up) && _prev.IsKeyDown(_input.Up))
-            {
-               tmp += _id + " ButtonChange " + "Up_U";
-                msglist.Enqueue(tmp);
-            }
-            if (keybord.IsKeyDown(_input.Down) && _prev.IsKeyUp(_input.Down))
-            {
-                tmp += _id + " ButtonChange " + "Down_D";
-                msglist.Enqueue(tmp);
-            }
-            if (keybord.IsKeyUp(_input.Down) && _prev.IsKeyDown(_input.Down))
-            {
-                tmp += _id + " ButtonChange " + "Down_U";
-                msglist.Enqueue(tmp);
-            }
+
 
         }
 

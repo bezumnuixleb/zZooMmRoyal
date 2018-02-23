@@ -48,7 +48,7 @@ namespace RoyalServer
                                         _name = mas[1],
                                         _Size = new Vector2(0.5f, 0.5f),
                                         _Type = "Player",
-                                        buttons = new PlayerS.PressedButtons(),
+                                        buttons = new List<String>(),
                                         Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
                                         _rotation = 0,
 
@@ -86,20 +86,9 @@ namespace RoyalServer
                                         if (mas[0] == player._id) tmpPlayer = player;
                                     }
                                     if (tmpPlayer != null) {
-                                        switch (mas[2])
-                                        {
-                                            case "Left_D": { tmpPlayer.buttons.left = true; } break;
-                                            case "Left_U": { tmpPlayer.buttons.left = false; } break;
-                                            case "Right_D": { tmpPlayer.buttons.right = true; } break;
-                                            case "Right_U": { tmpPlayer.buttons.right = false; } break;
-                                            case "Up_D": { tmpPlayer.buttons.up = true; } break;
-                                            case "Up_U": { tmpPlayer.buttons.up = false; } break;
-                                            case "Down_D": { tmpPlayer.buttons.down = true; } break;
-                                            case "Down_U": { tmpPlayer.buttons.down = false; } break;
-
-                                            default:
-                                                break;
-                                        }
+                                       // tmpPlayer.buttons.Add(mas[2]);
+                                        tmpPlayer.MoveButtons(mas[2]);
+                                       
                                     }
                                 }
                                 if (mas[1] == "MousePos")
