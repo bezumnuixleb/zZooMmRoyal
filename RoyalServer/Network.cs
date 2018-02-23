@@ -68,8 +68,8 @@ namespace RoyalServer
                                         //menyat bool znachenia knopok
                                                 //"_id _Player _PosX _PosY Rotation"
                                             NetOutgoingMessage inform = server.CreateMessage(player._id+" Player "+
-                                            Convert.ToString(playerlist.ToArray()[0]._position.X) +
-                                            " " + Convert.ToString(playerlist.ToArray()[0]._position.Y+" "+
+                                            Convert.ToString(player._position.X) +
+                                            " " + Convert.ToString(player._position.Y+" "+
                                             Convert.ToString(player._rotation)
                                             )
                                             );
