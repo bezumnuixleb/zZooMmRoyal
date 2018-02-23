@@ -22,7 +22,7 @@ namespace zZooMmRoyal
         Texture2D text;
         Client client=new Client();
         List<Object> objlist;
-        
+        Thread msgchecker;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -37,7 +37,7 @@ namespace zZooMmRoyal
                 _Size = new Vector2(0.5f, 0.5f),
             };
             objlist = new List<Object>();
-            Thread msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
+            msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
             msgchecker.Start();
             
         }
@@ -116,6 +116,7 @@ namespace zZooMmRoyal
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             player.Draw(spriteBatch);
+            msgchecker.Suspend();
             foreach (var obj in objlist)
             {
                 if (obj._Type == "Other_Player")
@@ -128,6 +129,7 @@ namespace zZooMmRoyal
                 }
 
             }
+            msgchecker.Resume();
             // TODO: Add your drawing code here
             spriteBatch.End();
 
