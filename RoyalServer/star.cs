@@ -32,6 +32,7 @@ namespace RoyalServer
                         break;
                 }
             }
+            //mouse pos getting
         }
         public void RandPos()
         {

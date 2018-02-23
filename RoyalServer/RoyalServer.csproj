@@ -43,9 +43,8 @@
   <ItemGroup>
     <Compile Include="Core.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="Input.cs" />
-    <Compile Include="Msg.cs" />
     <Compile Include="Network.cs" />
+    <Compile Include="PlayerS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="star.cs" />

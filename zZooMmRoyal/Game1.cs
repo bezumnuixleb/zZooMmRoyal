@@ -17,8 +17,9 @@ namespace zZooMmRoyal
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Queue<Msg> msglist = new Queue<Msg>();
-        star player;
+        Queue<String> msglist = new Queue<String>();
+        Player player;
+
         Client client=new Client();
         List<Object> objlist = new List<Object>();
         
@@ -27,11 +28,13 @@ namespace zZooMmRoyal
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             client.StartClient();
-            player = new star()
+            player = new Player()
             {
                 _position = new Vector2(0, 0),
-                _Type = "star",
-                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
+                _Type = "Player",
+                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
+                _name = "Dodek",
+                _Size = new Vector2(0.5f, 0.5f),
             };
 
             Thread msgchecker = new Thread(() => client.GetInfo(player, msglist));
@@ -62,9 +65,8 @@ namespace zZooMmRoyal
 
             Texture2D text = Content.Load<Texture2D>("test");
             player._texture = text;
-            
-           
-         
+            player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
+            client.SendMessage("give_id " + player._name);
 
         }
 
@@ -87,17 +89,17 @@ namespace zZooMmRoyal
             // client.GetInfo(player);
             //give coords
             //zagruzka s servera
+         
+            client.SendMessage(player._id + " " + "giveINFO"); 
+            player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
+
             foreach (var msg in msglist)
             {
-                String tmp = player._Type+" neInfo ";
-                tmp += msg._type;
-                
-                client.SendMessage(tmp);
-                
+                if(player._id!=null)
+                client.SendMessage(msg);
+
             }
             msglist.Clear();
-            client.SendMessage(player._Type + " " + "giveINFO"); ;
-            player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 

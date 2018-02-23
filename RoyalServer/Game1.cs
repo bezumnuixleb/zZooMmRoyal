@@ -13,12 +13,13 @@ namespace RoyalServer
        
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        public List<star> playerlist=new List<star>();
+        public List<PlayerS> playerlist=new List<PlayerS>();
         public List<Object> objlist = new List<Object>();
-        public List<Msg> mslist = new List<Msg>();
+        public List<String> mslist = new List<String>();
+        public int idcounter = 1;
         // public Server server = new Server();
         public Server server = new Server();
-        Texture2D text;
+        Texture2D Player_Texture_Std;
     
         //server.Start();
         public Game1()
@@ -28,8 +29,7 @@ namespace RoyalServer
             // server.StartServer();
          
             server.StartServer();
-            Thread msgchecker = new Thread(() => server.ReadMessages(playerlist));
-            msgchecker.Start();
+           
         }
 
         protected override void Initialize()
@@ -48,10 +48,12 @@ namespace RoyalServer
             }
             */
 
-            text = Content.Load<Texture2D>("test");
-            star tmpPl = new star(text) { _Type = "star" };
-            tmpPl.RandPos();
-            playerlist.Add(tmpPl);
+            Player_Texture_Std = Content.Load<Texture2D>("test");
+            Thread msgchecker = new Thread(() => server.ReadMessages(playerlist, Player_Texture_Std, idcounter));
+            msgchecker.Start();
+            //star tmpPl = new star(text) { _Type = "star" };
+            //tmpPl.RandPos();
+            //playerlist.Add(tmpPl);
 
         }
 
@@ -72,7 +74,6 @@ namespace RoyalServer
             foreach (var player  in playerlist)
             {
                 player.Update(gameTime, objlist);
-                player.buttons.Clear();
             }
             // main update
 
@@ -87,37 +88,10 @@ namespace RoyalServer
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
-            spriteBatch.Draw(text, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
-            spriteBatch.End();
+          //  spriteBatch.Begin();
+          //  spriteBatch.Draw(Player_Texture_Std, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
+         //   spriteBatch.End();
             base.Draw(gameTime);
-        }
-        public void msgcheck(NetIncomingMessage msg, List<star> playerlist)
-        {
-            switch (msg.MessageType)
-            {
-                case NetIncomingMessageType.VerboseDebugMessage:
-                case NetIncomingMessageType.DebugMessage:
-                case NetIncomingMessageType.WarningMessage:
-                case NetIncomingMessageType.ErrorMessage:
-                case NetIncomingMessageType.Data:
-                    {
-                        var data = msg.ReadString();
-                        String[] mas = data.Split();
-                        if(mas[1]=="getInfo")
-                        foreach (var player in playerlist)
-                        {
-                            if (mas[0] == player._Type)
-                            {
-                                player.buttons.Add(mas[1]);
-                            }
-                        }break;
-                    }
-                   
-                default:
-
-                    break;
-            }
         }
     }
 }

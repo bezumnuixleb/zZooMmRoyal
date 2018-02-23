@@ -23,35 +23,35 @@ namespace zZooMmRoyal
         {
             
         }
-        public void Update(GameTime gameTime, List<Object> gameobj, KeyboardState playerkeys,Queue<Msg> msglist)
+        public void Update(GameTime gameTime, List<Object> gameobj, KeyboardState playerkeys,Queue<String> msglist)
         {
             _prev = _current;
             _current = playerkeys;
             Move(_current,msglist);
         }
 
-        public void Move(KeyboardState keybord, Queue<Msg> msglist)
+        public void Move(KeyboardState keybord, Queue<String> msglist)
         {
             if (_input == null)
                 return;
             if (keybord.IsKeyDown(_input.Left))
             {
-                msglist.Enqueue(new Msg{_type="Left"});
+               // msglist.Enqueue(new Msg{_type="Left"});
              //   _position.X -= _speed;
             }
             if (keybord.IsKeyDown(_input.Right))
             {
-                msglist.Enqueue(new Msg { _type = "Right" });
+             //   msglist.Enqueue(new Msg { _type = "Right" });
            //     _position.X += _speed;
             }
             if (keybord.IsKeyDown(_input.Up))
             {
-                msglist.Enqueue(new Msg { _type = "Up" });
+              //  msglist.Enqueue(new Msg { _type = "Up" });
              //   _position.Y -= _speed;
             }
             if (keybord.IsKeyDown(_input.Down))
             {
-                msglist.Enqueue(new Msg { _type = "Down" });
+               // msglist.Enqueue(new Msg { _type = "Down" });
              //   _position.Y += _speed;
             }
 
@@ -61,11 +61,12 @@ namespace zZooMmRoyal
             spriteBatch.Draw(_texture, _position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
             base.Draw(spriteBatch);
         }
-        public void changepos(String msg)
+        public void Changes(String msg)
         {
             String[] mas = msg.Split();
             _position.X = Convert.ToSingle(mas[0]);
             _position.Y = Convert.ToSingle(mas[1]);
+            //other changes
         }
     }
     class Input

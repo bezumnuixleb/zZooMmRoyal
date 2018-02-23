@@ -18,7 +18,7 @@ namespace zZooMmRoyal
             client = new NetClient(config);
             client.Start();
 
-            string ip = "31.132.141.5";
+            string ip = "localhost";
             int port = 14242;
             client.Connect(ip, port);
         }
@@ -31,15 +31,11 @@ namespace zZooMmRoyal
             client.FlushSendQueue();
             
         }
-        public void GetInfo(star player, Queue<Msg> msglist)
+        public void GetInfo(Player player, Queue<String> msglist)
         {
 
             while (true) {
 
-               
-
-             
-           
                 NetIncomingMessage info = client.ReadMessage();
                 if ((info != null))
                 {
@@ -48,7 +44,17 @@ namespace zZooMmRoyal
                         case NetIncomingMessageType.Data:
                             {
                                 String data = info.ReadString();
-                                player.changepos(data);
+                                String[] mas = data.Split();
+                                if (mas[0] == "id")
+                                {
+                                    player._id = mas[1]; continue;
+                                }
+                                if (mas[1]=="Player")
+                                player.Changes(data);
+
+                                //msg dlya objects
+                                //if (mas[1] == "Objects") ;
+                                //drugaya super slojnaya func
                             }
                             break;
 

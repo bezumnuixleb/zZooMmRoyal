@@ -30,12 +30,5 @@ namespace zZooMmRoyal
 
         }
     }
-    public class Msg
-    {
-        public String _type;
-        public Msg()
-        {
 
-        }
-    }
 }
