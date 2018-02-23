@@ -14,6 +14,9 @@ namespace RoyalServer
         public Texture2D _texture;
         public Vector2 _position;
         public String _Type;
+        public Vector2 Origin;
+        public float _rotation = 3f;
+
         public Object(Texture2D ntext)
         {
             _texture = ntext;

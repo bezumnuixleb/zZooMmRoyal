@@ -17,9 +17,7 @@ namespace zZooMmRoyal
         public KeyboardState _current;
         public KeyboardState _prev;
 
-        public float _rotation = 3f;
 
-        public Vector2 Origin;
         public Vector2 _Size;
         public Vector2 _mPosition;
         public Player(Texture2D text) : base(text)

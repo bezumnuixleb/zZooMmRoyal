@@ -1,4 +1,5 @@
 ﻿using Lidgren.Network;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace zZooMmRoyal
             client.FlushSendQueue();
             
         }
-        public void GetInfo(Player player, Queue<String> msglist)
+        public void GetInfo(Player player, Queue<String> msglist,List<Object> objlist)
         {
 
             while (true) {
@@ -53,7 +54,25 @@ namespace zZooMmRoyal
                                 player.Changes(data);
 
                                 //msg dlya objects
-                                //if (mas[1] == "Objects") ;
+                                if (mas[1] == "Objects") {
+                                    if (mas[2] != "error") {
+                                        objlist.Clear();
+                                    int objcountr = Convert.ToInt32(mas[2]);
+                                    int currentSdvig = 3;
+                                    for (int i = 0; i < objcountr; i++)
+                                    {
+                                        if(mas[currentSdvig]== "Other_Player")
+                                        {
+                                                Object tmpobj = new Object();
+                                                tmpobj._Type = mas[currentSdvig];
+                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                  objlist.Add(tmpobj);
+                                        }
+                                        currentSdvig += 4;
+                                    }
+                                    }
+                                } 
                                 //drugaya super slojnaya func
                             }
                             break;
