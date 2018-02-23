@@ -18,6 +18,7 @@ namespace zZooMmRoyal
             config.AutoFlushSendQueue = false;
             client = new NetClient(config);
             client.Start();
+            //ip host 31.132.141.5
 
             string ip = "localhost";
             int port = 14242;
