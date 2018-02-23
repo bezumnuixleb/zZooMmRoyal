@@ -52,20 +52,20 @@ namespace RoyalServer
             Thread msgchecker = new Thread(() => server.ReadMessages(playerlist, Player_Texture_Std, idcounter));
             msgchecker.Start();
 
-            PlayerS tmpP = new PlayerS(Player_Texture_Std)
-            {
-                _id = idcounter.ToString(),
-                _name = "Doven",
-                _Size = new Vector2(0.5f, 0.5f),
-                _Type = "Player",
-                buttons = new PlayerS.PressedButtons(),
-                Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
-                _rotation = 0,
+            //PlayerS tmpP = new PlayerS(Player_Texture_Std)
+            //{
+            //    _id = idcounter.ToString(),
+            //    _name = "Doven",
+            //    _Size = new Vector2(0.5f, 0.5f),
+            //    _Type = "Player",
+            //    buttons = new PlayerS.PressedButtons(),
+            //    Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
+            //    _rotation = 0,
 
-            };
-            tmpP.RandPos();
-            playerlist.Add(tmpP);
-            idcounter++;
+            //};
+            //tmpP.RandPos();
+            //playerlist.Add(tmpP);
+            //idcounter++;
             //star tmpPl = new star(text) { _Type = "star" };
             //tmpPl.RandPos();
             //playerlist.Add(tmpPl);

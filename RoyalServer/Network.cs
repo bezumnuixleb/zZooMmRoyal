@@ -139,7 +139,7 @@ namespace RoyalServer
                 {
                     objcounter++;
                     String s = "Other_Player ";
-                    s +=obj._position.X + " " + obj._position.Y+" "+obj._rotation;
+                    s +=obj._position.X + " " + obj._position.Y+" "+obj._rotation+" ";
                     toadding += s;
                 }
                 //other obj
