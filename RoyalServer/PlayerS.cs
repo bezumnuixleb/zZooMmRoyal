@@ -21,11 +21,6 @@ namespace RoyalServer
 
 
         public float _speed = 2f;
-<<<<<<< HEAD
-        public float _rotation = 3f;
-=======
-        public PressedButtons buttons;
->>>>>>> 6fae1eda53b63f08f07e5efc0cf64b3cdb89b57d
         public PlayerS(Texture2D texture):base(texture)
         {
             _mPosition = new Vector2(0,0);

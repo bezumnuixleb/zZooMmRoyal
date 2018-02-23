@@ -58,7 +58,6 @@ namespace RoyalServer
                 _name = "Doven",
                 _Size = new Vector2(0.5f, 0.5f),
                 _Type = "Player",
-                buttons = new PlayerS.PressedButtons(),
                 Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
                 _rotation = 0,
 
