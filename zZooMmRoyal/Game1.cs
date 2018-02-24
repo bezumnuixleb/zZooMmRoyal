@@ -3,11 +3,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using zZooMmRoyal.MOB;
+using zZooMmRoyal.States;
 
 namespace zZooMmRoyal
 {
@@ -25,6 +27,18 @@ namespace zZooMmRoyal
         Client client =new Client();
         List<Object> objlist;
         Thread msgchecker;
+
+        // MENU
+        private State _currentState;
+
+        private State _nextState;
+
+        public void ChangesState(State state)
+        {
+            _nextState = state;
+        }
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,7 +66,7 @@ namespace zZooMmRoyal
         /// </summary>
         protected override void Initialize()
         {
-           
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -70,6 +84,9 @@ namespace zZooMmRoyal
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
             client.SendMessage("give_id " + player._name);
+
+            //Menu
+            _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
 
         }
 
@@ -106,6 +123,15 @@ namespace zZooMmRoyal
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (_nextState !=null)
+            {
+                _currentState = _nextState;
+
+                _nextState = null;
+            }
+
+            _currentState.Update(gameTime);
+            _currentState.PostUpdate(gameTime);
             
             base.Update(gameTime);
         }
@@ -117,6 +143,11 @@ namespace zZooMmRoyal
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            //MENU
+            _currentState.Draw(gameTime, spriteBatch);
+
+
             spriteBatch.Begin();
             player.Draw(spriteBatch);
             msgchecker.Suspend();
