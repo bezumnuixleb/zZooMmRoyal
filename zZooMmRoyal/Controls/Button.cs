@@ -13,10 +13,11 @@ namespace zZooMmRoyal.Controls
     {
         #region Fields 
         private MouseState _currentMouse;
-        private SpriteFont _font;
         private bool _isHovering;
         private MouseState _previousMouse;
         private Texture2D _texture;
+        public SpriteFont _font;
+
         #endregion
 
         #region Properties
@@ -32,6 +33,7 @@ namespace zZooMmRoyal.Controls
             }
         }
         public string Text { get; set; }
+
         #endregion
 
         #region Methods 
@@ -45,15 +47,19 @@ namespace zZooMmRoyal.Controls
         {
             var colour = Color.White;
             if (_isHovering)
-                colour = Color.Gray;
+            { colour = Color.Gray; }
+
             spriteBatch.Draw(_texture, Rectangle, colour);
 
             if (!string.IsNullOrEmpty(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
                 var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
-                spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
+                spriteBatch.DrawString(_font, Text, new Vector2(x, y), Color.Black);
+                //spriteBatch.DrawString(_font, Text, new Vector2(100, 100), PenColour);
+
             }
+
         }
         public override void Update(GameTime gameTime)
         {

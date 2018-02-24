@@ -19,11 +19,12 @@ namespace zZooMmRoyal.States
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
             var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
-
+            
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(300, 200),
                 Text = "New Game",
+                _font = buttonFont,
             };
 
             newGameButton.Click += NewGameButton_Click;
@@ -32,6 +33,8 @@ namespace zZooMmRoyal.States
             {
                 Position = new Vector2(300, 250),
                 Text = "load Game",
+                _font = buttonFont,
+
             };
 
             loadGameButton.Click += loadGameButton_Click;
@@ -40,6 +43,8 @@ namespace zZooMmRoyal.States
             {
                 Position = new Vector2(300, 300),
                 Text = "Quit",
+                _font = buttonFont,
+
             };
 
             quitGameButton.Click += QuitButton_Click;
