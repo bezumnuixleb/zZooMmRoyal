@@ -7,6 +7,7 @@ using Lidgren.Network;
 using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using RoyalServer.MOB_S;
 
 namespace RoyalServer
 {
@@ -24,7 +25,7 @@ namespace RoyalServer
             clients = new List<NetPeer>();
         }
 
-        public void ReadMessages(List<PlayerS> playerlist,Texture2D Player_Texture_Std,int idcounter)
+        public void ReadMessages(List<ZombieS> zombielist, List<PlayerS> playerlist,Texture2D Player_Texture_Std,int idcounter)
         {
             NetIncomingMessage message;
             var stop = false;
@@ -70,15 +71,22 @@ namespace RoyalServer
                                             NetOutgoingMessage inform = server.CreateMessage(player._id+" Player "+
                                             Convert.ToString(player._position.X) +
                                             " " + Convert.ToString(player._position.Y+" "+
-                                            Convert.ToString(player._rotation)
-                                            )
-                                            );
+                                            Convert.ToString(player._rotation) ));
                                             server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+
                                             //send info about other players
                                             String Tmps = "" + player._id + " Objects";
-                                            
-                                            NetOutgoingMessage statistic = server.CreateMessage(CreateMsgAboutPlayers(Tmps, playerlist, player._id));
+                                            String Sosat = CreateMsgAboutPlayers(Tmps, playerlist, player._id, zombielist);
+                                            NetOutgoingMessage statistic = server.CreateMessage(Sosat);
                                             server.SendMessage(statistic, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+
+                                            //send info about Zombies
+
+                                            //String TmpZombie = "" + player._id + " All_Zombie";
+
+                                            //NetOutgoingMessage infoZombie = server.CreateMessage(CreateMsgAboutZombies(TmpZombie, zombielist, player._id));
+                                            //server.SendMessage(infoZombie, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+
                                             continue;
 
                                         }
@@ -129,7 +137,7 @@ namespace RoyalServer
             }
         }
 
-        public String CreateMsgAboutPlayers(String msg, List<PlayerS> playerlist,String currentid)
+        public String CreateMsgAboutPlayers(String msg, List<PlayerS> playerlist,String currentid, List<ZombieS> zombieslist)
         {
             int objcounter = 0;
             String toadding = "";
@@ -144,6 +152,16 @@ namespace RoyalServer
                 }
                 //other obj
             }
+            foreach (var obj in zombieslist)
+            {
+                if (obj._Type == "Zombie")
+                {
+                    objcounter++;
+                    String s = "Mob_Zombie ";
+                    s += obj._position.X + " " + obj._position.Y + " " + obj._rotation + " ";
+                    toadding += s;
+                }
+            }
             if (objcounter != 0)
             {
                 msg += " "+objcounter.ToString()+" " + toadding;
@@ -154,5 +172,29 @@ namespace RoyalServer
                 msg += " error"; return msg;
             }
         }
+        //public String CreateMsgAboutZombies(String msg, List<ZombieS> Zombielist, String currentid)
+        //{
+        //    int objcounter = 0;
+        //    String toadding = "";
+        //    foreach (var obj in Zombielist)
+        //    {
+        //        if (obj._Type == "Zombie")
+        //        {
+        //            objcounter++;
+        //            String s = "Mob_Zombie ";
+        //            s += obj._position.X + " " + obj._position.Y + " " + obj._rotation + " ";
+        //            toadding += s;
+        //        }
+        //    }
+        //    if (objcounter != 0)
+        //    {
+        //        msg += " " + objcounter.ToString() + " " + toadding;
+        //        return msg;
+        //    }
+        //    else
+        //    {
+        //        msg += " error"; return msg;
+        //    }
+        //}
     }
 }

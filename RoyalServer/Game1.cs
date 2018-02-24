@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Lidgren.Network;
 using System.Threading;
 using System;
+using RoyalServer.MOB_S;
 
 namespace RoyalServer
 {
@@ -14,13 +15,16 @@ namespace RoyalServer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public List<PlayerS> playerlist=new List<PlayerS>();
+        public List<ZombieS> zombielist = new List<ZombieS>();
+
         public List<Object> objlist = new List<Object>();
         public List<String> mslist = new List<String>();
         public int idcounter = 1;
         // public Server server = new Server();
         public Server server = new Server();
         Texture2D Player_Texture_Std;
-    
+        Texture2D Zombie_Texture_Std;
+
         //server.Start();
         public Game1()
         {
@@ -49,27 +53,43 @@ namespace RoyalServer
             */
 
             Player_Texture_Std = Content.Load<Texture2D>("test");
-            Thread msgchecker = new Thread(() => server.ReadMessages(playerlist, Player_Texture_Std, idcounter));
+            Zombie_Texture_Std = Content.Load<Texture2D>("Zombie");
+
+            Thread msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));
             msgchecker.Start();
 
-            PlayerS tmpP = new PlayerS(Player_Texture_Std)
+            //PlayerS tmpP = new PlayerS(Player_Texture_Std)
+            //{
+            //    _id = idcounter.ToString(),
+            //    _name = "Doven",
+            //    _Size = new Vector2(0.5f, 0.5f),
+            //    _Type = "Player",
+            //    buttons = new PlayerS.PressedButtons(),
+            //    Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
+            //    _rotation = 0,
+
+            //};
+            //tmpP.RandPos();
+            //playerlist.Add(tmpP);
+            //idcounter++;
+
+
+            // mob generation
+            for (int i = 0; i < 7; i++)
             {
-                _id = idcounter.ToString(),
-                _name = "Doven",
-                _Size = new Vector2(0.5f, 0.5f),
-                _Type = "Player",
-                buttons = new PlayerS.PressedButtons(),
-                Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
-                _rotation = 0,
-
-            };
-            tmpP.RandPos();
-            playerlist.Add(tmpP);
-            idcounter++;
-            //star tmpPl = new star(text) { _Type = "star" };
-            //tmpPl.RandPos();
-            //playerlist.Add(tmpPl);
-
+                ZombieS tmpZ = new ZombieS(Zombie_Texture_Std)
+                {
+                    _speed = 1.5f,
+                    distance_Min = 200,
+                    _Size = new Vector2(0.2f, 0.3f),
+                    _Type = "Zombie",
+                    Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
+                    _rotation = 0,
+                   // _position = new Vector2(900, 500),
+                };
+                tmpZ.RandPos(playerlist);
+                zombielist.Add(tmpZ);
+            }
         }
 
         protected override void UnloadContent()
@@ -81,14 +101,18 @@ namespace RoyalServer
         {
             //polychenie msg
             //zapysti menya v potok
-           //start other thread
+            //start other thread
 
-            
+            ;
             //other thread
 
             foreach (var player  in playerlist)
             {
                 player.Update(gameTime, objlist);
+            }
+            foreach (var Zombie in zombielist)
+            {
+                Zombie.Update(gameTime, objlist, playerlist);
             }
             // main update
 

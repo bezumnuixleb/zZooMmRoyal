@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using zZooMmRoyal.MOB;
 
 namespace zZooMmRoyal
 {
@@ -20,7 +21,8 @@ namespace zZooMmRoyal
         Queue<String> msglist = new Queue<String>();
         Player player;
         Texture2D text;
-        Client client=new Client();
+        Texture2D texture_Zombie;
+        Client client =new Client();
         List<Object> objlist;
         Thread msgchecker;
         public Game1()
@@ -64,6 +66,7 @@ namespace zZooMmRoyal
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             text = Content.Load<Texture2D>("test");
+            texture_Zombie = Content.Load<Texture2D>("Zombie");
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
             client.SendMessage("give_id " + player._name);
@@ -127,7 +130,14 @@ namespace zZooMmRoyal
                     spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
 
                 }
+                if (obj._Type == "Mob_Zombie")
+                {
+                    obj._texture = texture_Zombie;
+                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.2f, 0.3f), SpriteEffects.None, 0f);
+
+                }
             }
             msgchecker.Resume();
             // TODO: Add your drawing code here

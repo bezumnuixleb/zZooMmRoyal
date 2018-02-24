@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using zZooMmRoyal.MOB;
 
 namespace zZooMmRoyal
 {
@@ -31,12 +32,13 @@ namespace zZooMmRoyal
 
             client.SendMessage(message, NetDeliveryMethod.ReliableOrdered);
             client.FlushSendQueue();
-            
+
         }
-        public void GetInfo(Player player, Queue<String> msglist,List<Object> objlist)
+        public void GetInfo(Player player, Queue<String> msglist, List<Object> objlist)
         {
 
-            while (true) {
+            while (true)
+            {
 
                 NetIncomingMessage info = client.ReadMessage();
                 if ((info != null))
@@ -51,29 +53,68 @@ namespace zZooMmRoyal
                                 {
                                     player._id = mas[1]; continue;
                                 }
-                                if (mas[1]=="Player")
-                                player.Changes(data);
+                                if (mas[1] == "Player")
+                                    player.Changes(data);
+
+                                //if(mas[0]== "Zombie")
+                                //    zombie.Changes(data);
 
                                 //msg dlya objects
-                                if (mas[1] == "Objects") {
-                                    if (mas[2] != "error") {
-                                        objlist.Clear();
-                                    int objcountr = Convert.ToInt32(mas[2]);
-                                    int currentSdvig = 3;
-                                    for (int i = 0; i < objcountr; i++)
+                                if (mas[1] == "Objects")
+                                {
+                                    if (mas[2] != "error")
                                     {
-                                        if(mas[currentSdvig]== "Other_Player")
+                                        objlist.Clear();
+                                        int objcountr = Convert.ToInt32(mas[2]);
+                                        int currentSdvig = 3;
+                                        for (int i = 0; i < objcountr; i++)
                                         {
+                                            if (mas[currentSdvig] == "Mob_Zombie")
+                                            {
                                                 Object tmpobj = new Object();
                                                 tmpobj._Type = mas[currentSdvig];
                                                 tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                 tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                  objlist.Add(tmpobj);
+                                                objlist.Add(tmpobj);
+                                            }
+                                            if (mas[currentSdvig] == "Other_Player")
+                                            {
+                                                Object tmpobj = new Object();
+                                                tmpobj._Type = mas[currentSdvig];
+                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                objlist.Add(tmpobj);
+                                            }
+
+                                            currentSdvig += 4;
                                         }
-                                        currentSdvig += 4;
                                     }
+                                }
+
+
+                                //msg dlya Zobie
+                                if (mas[1] == "All_Zombie")
+                                {
+                                    if (mas[2] != "error")
+                                    {
+                                        objlist.Clear();
+                                        int MOBcountr = Convert.ToInt32(mas[2]);
+                                        int currentSdvig = 3;
+                                        for (int i = 0; i < MOBcountr; i++)
+                                        {
+                                            if (mas[currentSdvig] == "Mob_Zombie")
+                                            {
+                                                Object tmpobj = new Object();
+                                                tmpobj._Type = mas[currentSdvig];
+                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                objlist.Add(tmpobj);
+                                            }
+                                            currentSdvig += 4;
+                                        }
                                     }
-                                } 
+                                }
+
                                 //drugaya super slojnaya func
                             }
                             break;
@@ -84,8 +125,8 @@ namespace zZooMmRoyal
                 }
                 else //recconect
                     continue;
-               
-              //  System.Threading.Thread.Sleep(10);
+
+                //  System.Threading.Thread.Sleep(10);
             }
         }
         public void Disconnect()
