@@ -19,7 +19,7 @@ namespace zZooMmRoyal.States
         {
            
             var buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            var buttonFont = _content.Load<SpriteFont>("Fonts/menu_font");
 
             var DisconnectButton = new Button(buttonTexture, buttonFont)
             {

@@ -140,3 +140,10 @@
 /processorParam:TextureFormat=Color
 /build:graphics/main_menu/main_menu_background.png
 
+#begin Fonts/menu_font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/menu_font.spritefont
+

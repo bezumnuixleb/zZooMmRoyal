@@ -19,7 +19,7 @@ namespace zZooMmRoyal.States
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
-            var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            var buttonFont = _content.Load<SpriteFont>("Fonts/menu_font");
             var BackText = _content.Load<Texture2D>("graphics/main_menu/main_menu_background");
             var Background = new Background(BackText)
             {

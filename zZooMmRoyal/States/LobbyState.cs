@@ -19,7 +19,7 @@ namespace zZooMmRoyal.States
         public LobbyState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
-            buttonFont = _content.Load<SpriteFont>("Fonts/Font");
+            buttonFont = _content.Load<SpriteFont>("Fonts/menu_font");
 
             var StartGameButton = new Button(buttonTexture, buttonFont)
             {
