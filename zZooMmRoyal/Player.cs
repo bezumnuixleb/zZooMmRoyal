@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace zZooMmRoyal
 {
-    class Player : Object
+    public class Player : Object
     {
         public String _name;
         public String _id;

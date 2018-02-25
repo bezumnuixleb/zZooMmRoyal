@@ -18,15 +18,15 @@ namespace zZooMmRoyal
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Queue<String> msglist = new Queue<String>();
-        Player player;
-        Texture2D text;
-        Texture2D texture_Zombie;
-        Client client =new Client();
-        List<Object> objlist;
-        Thread msgchecker;
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
+        public Queue<String> msglist = new Queue<String>();
+        public Player player;
+        public Texture2D text;
+        public Texture2D texture_Zombie;
+        public Client client =new Client();
+        public List<Object> objlist;
+        public Thread msgchecker;
 
         // MENU
         private State _currentState;
@@ -51,6 +51,7 @@ namespace zZooMmRoyal
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
                 _name = "Dodek",
                 _Size = new Vector2(0.5f, 0.5f),
+                _id="null"
             };
             objlist = new List<Object>();
             msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
@@ -83,7 +84,7 @@ namespace zZooMmRoyal
             texture_Zombie = Content.Load<Texture2D>("Zombie");
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
-            client.SendMessage("give_id " + player._name);
+            
 
             //Menu
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
@@ -110,16 +111,7 @@ namespace zZooMmRoyal
             //give coords
             //zagruzka s servera
          
-            client.SendMessage(player._id + " " + "giveINFO"); 
-            player.Update(gameTime, objlist, Keyboard.GetState(), msglist);
-
-            foreach (var msg in msglist)
-            {
-                if(player._id!=null)
-                client.SendMessage(msg);
-
-            }
-            msglist.Clear();
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -146,33 +138,6 @@ namespace zZooMmRoyal
 
             //MENU
             _currentState.Draw(gameTime, spriteBatch);
-
-
-            spriteBatch.Begin();
-            player.Draw(spriteBatch);
-            msgchecker.Suspend();
-            foreach (var obj in objlist)
-            {
-                if (obj._Type == "Other_Player")
-                {
-                    obj._texture = text;
-                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
-
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
-
-                }
-                if (obj._Type == "Mob_Zombie")
-                {
-                    obj._texture = texture_Zombie;
-                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
-
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.2f, 0.3f), SpriteEffects.None, 0f);
-
-                }
-            }
-            msgchecker.Resume();
-            // TODO: Add your drawing code here
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

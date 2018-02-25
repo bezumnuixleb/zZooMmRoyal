@@ -9,7 +9,7 @@ using zZooMmRoyal.MOB;
 
 namespace zZooMmRoyal
 {
-    class Client
+    public class Client
     {
         private NetClient client;
 

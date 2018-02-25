@@ -69,7 +69,7 @@ namespace zZooMmRoyal
             //other changes
         }
     }
-    class Input
+    public class Input
     {
         public Keys Left { get; set; }
         public Keys Right { get; set; }
