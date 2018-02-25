@@ -19,6 +19,7 @@ namespace rastating
         public float rotation;
         public Vector2 origin;
         public Color[] textureData;
+        public Vector2 _Size;
 
         #endregion
 
@@ -64,7 +65,8 @@ namespace rastating
             get
             {
                 return Matrix.CreateTranslation(new Vector3(-this.Origin, 0.0f)) *
-                                        Matrix.CreateRotationZ(this.Rotation) *
+                    Matrix.CreateScale(_Size.X, _Size.Y, 1) *
+                                        Matrix.CreateRotationZ(this.Rotation) * 
                                         Matrix.CreateTranslation(new Vector3(this.Position, 0.0f));
             }
         }
@@ -133,56 +135,6 @@ namespace rastating
             }
 
         }
-        #endregion
-
-        #region Instance Methods
-
-        public void MoveLeft(float moveBy)
-        {
-            this.position.X -= moveBy;
-        }
-
-        public void MoveRight(float moveBy)
-        {
-            this.position.X += moveBy;
-        }
-
-        public void MoveUp(float moveBy)
-        {
-            this.position.Y -= moveBy;
-        }
-
-        public void MoveDown(float moveBy)
-        {
-            this.position.Y += moveBy;
-        }
-
-        public void Rotate(float rotateBy)
-        {
-            if (rotateBy < 0)
-            {
-                this.rotation -= rotateBy;
-            }
-            else
-            {
-                this.rotation += rotateBy;
-            }
-        }
-
-        public bool IsColliding(CollidableObject collidable)
-        {
-            bool retval = false;
-
-            if (this.BoundingRectangle.Intersects(collidable.BoundingRectangle))
-            {
-                if (IntersectPixels(this.Transform, this.Texture.Width, this.Texture.Height, this.TextureData, collidable.Transform, collidable.Texture.Width, collidable.Texture.Height, collidable.TextureData))
-                {
-                    retval = true;
-                }
-            }
-
-            return retval;
-        }
 
         public void LoadTexture(Texture2D texture)
         {
@@ -200,7 +152,26 @@ namespace rastating
 
         #endregion
 
-        #region Static Methods
+        #region PixelCollision
+
+        public bool IsColliding(CollidableObject collidable)
+        {
+            bool retval = false;
+
+            if (this.BoundingRectangle.Intersects(collidable.BoundingRectangle))
+            {
+                if (IntersectPixels(this.Transform, this.Texture.Width, this.Texture.Height, this.TextureData, collidable.Transform, collidable.Texture.Width, collidable.Texture.Height, collidable.TextureData))
+                {
+                    retval = true;
+                }
+            }
+
+            return retval;
+        }
+
+     
+
+
         public static bool IntersectPixels(Rectangle rectangleA, Color[] dataA, Rectangle rectangleB, Color[] dataB)
         {
             // Find the bounds of the rectangle intersection
@@ -233,6 +204,19 @@ namespace rastating
             return false;
         }
 
+        private void BuildMatrix()
+        {
+            // Build the transformation matrix
+            Matrix TransformMatrix =
+                // The location.center is the center of the texture 2d. Where it is placed on the screen.
+                Matrix.CreateTranslation(new Vector3(-origin, 0.0f)) *
+                // Size width / height are the size of the texture after it is scaled.
+                Matrix.CreateScale(_Size.X*texture.Width, _Size.Y * texture.Height, 1) *
+                // No rotation.
+                Matrix.CreateRotationZ(rotation) *
+                // Location.Position is the is the top coordinates for the texture2d before scaling.
+                Matrix.CreateTranslation(new Vector3(Position, 0.0f));
+        }
         public static bool IntersectPixels(Matrix transformA, int widthA, int heightA, Color[] dataA, Matrix transformB, int widthB, int heightB, Color[] dataB)
         {
             // Calculate a matrix which transforms from A's local space into

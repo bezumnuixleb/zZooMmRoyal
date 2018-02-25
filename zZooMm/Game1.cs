@@ -51,9 +51,9 @@ namespace zZooMm001
             player = new CollidableObject(texture, new Vector2(600, 600))
             {
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
-                
+                _Size=new Vector2(0.5f,0.5f)
             };
-            zombie = new CollidableObject(textureZ, new Vector2(200, 150));
+            zombie = new CollidableObject(textureZ, new Vector2(200, 150)) {_Size=new Vector2(0.5f,0.5f) };
         }
 
 
@@ -95,8 +95,8 @@ namespace zZooMm001
 
             //foreach (var zombie in _Zombie)
             //    zombie.Draw(spriteBatch);
-            spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.Origin,1 , SpriteEffects.None, 0f);
-            spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.Origin, 1, SpriteEffects.None, 0f);
+            spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.Origin,player._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.Origin, zombie._Size, SpriteEffects.None, 0f);
 
             spriteBatch.End();
             base.Draw(gameTime);
