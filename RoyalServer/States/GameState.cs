@@ -44,10 +44,22 @@ namespace zZooMmRoyal.States
                 player.Update(gameTime, _game.objlist);
                 if (player._isAlive) someoneisAlive = true;
             }
+
             foreach (var Zombie in _game.zombielist)
             {
                 Zombie.Update(gameTime, _game.objlist, _game.playerlist);
             }
+            foreach (var player in _game.playerlist)
+            {
+                foreach (var Zombie in _game.zombielist)
+                {
+                    player.IsColliding(Zombie);
+                }
+           
+            }
+
+
+
             // main update
 
             // send positions

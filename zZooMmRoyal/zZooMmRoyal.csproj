@@ -47,7 +47,6 @@
     <Compile Include="Controls\PlayerInLobby.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="MOB\Zombie.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

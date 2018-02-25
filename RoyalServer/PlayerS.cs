@@ -14,7 +14,7 @@ namespace RoyalServer
         public String _name;
         public String _id;
         public bool _isAlive=true;
-        public Vector2 _Size;
+        //public Vector2 _Size;
         public Vector2 _mPosition;
         public class PressedButtons
         {
@@ -26,7 +26,7 @@ namespace RoyalServer
         }
         public float _speed = 2f;
         public PressedButtons buttons;
-        public PlayerS(Texture2D texture):base(texture)
+        public PlayerS(Texture2D texture):base(texture, new Vector2(0, 0))
         {
             _mPosition = new Vector2(0,0);
         }

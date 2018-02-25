@@ -11,12 +11,12 @@ namespace RoyalServer.MOB_S
 {
     public class ZombieS : Object
     {
-        public Vector2 _Size;
+        //public Vector2 _Size;
         public float _speed = 1f;
         public float distance_Min;
 
 
-        public ZombieS(Texture2D texture) : base(texture)
+        public ZombieS(Texture2D texture) : base(texture, new Vector2(0, 0))
         {
         }
 

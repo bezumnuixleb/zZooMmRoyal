@@ -93,10 +93,19 @@ namespace RoyalServer
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
-          //  spriteBatch.Begin();
-          //  spriteBatch.Draw(Player_Texture_Std, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
-         //   spriteBatch.End();
+
+            foreach (var player in playerlist)
+            {
+                foreach (var Zombie in zombielist)
+                {
+                    if (player.IsColliding(Zombie)) GraphicsDevice.Clear(Color.Red);
+                }
+            }
+            //  spriteBatch.Begin();
+            //  spriteBatch.Draw(Player_Texture_Std, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
+            //   spriteBatch.End();
             base.Draw(gameTime);
         }
     }

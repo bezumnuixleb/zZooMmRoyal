@@ -20,9 +20,9 @@ namespace zZooMmRoyal.States
             {
                 ZombieS tmpZ = new ZombieS(_game.Zombie_Texture_Std)
                 {
-                    _speed = 1.5f,
+                    _speed = 0f,
                     distance_Min = 200,
-                    _Size = new Vector2(0.2f, 0.3f),
+                    _Size = new Vector2(0.3f, 0.3f),
                     _Type = "Zombie",
                     Origin = new Vector2(_game.Player_Texture_Std.Width / 2, _game.Player_Texture_Std.Height / 2),
                     _rotation = 0,
