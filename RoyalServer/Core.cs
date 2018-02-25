@@ -31,5 +31,10 @@ namespace RoyalServer
         }
     }
 
-    
+    public enum ServerState
+    {
+        waitingPlayers,
+        lobby,
+        gameplay
+    }
 }

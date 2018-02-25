@@ -17,7 +17,7 @@ namespace zZooMmRoyal.States
 
         public GameState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
-            if(game.player._id=="null")game.client.SendMessage("give_id " + game.player._name);
+           
             var buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
             var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
 
@@ -37,9 +37,13 @@ namespace zZooMmRoyal.States
 
         private void DisconnectButton_Click(object sender, EventArgs e)
         {
+            _game.client.SendMessage(_game.player._id + " " + "disconnect");
             _game.ChangesState(new MenuState(_game, _graphicsDevice, _content));
-
-
+            _game.currentState = ClientState.mainmenu;
+           
+            //game ended
+            
+            _game.client.Disconnect();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -70,6 +74,7 @@ namespace zZooMmRoyal.States
 
                 }
             }
+
             _game.msgchecker.Resume();
                // TODO: Add your drawing code here
 

@@ -6,34 +6,48 @@ using Lidgren.Network;
 using System.Threading;
 using System;
 using RoyalServer.MOB_S;
+using zZooMmRoyal.States;
 
 namespace RoyalServer
 {
     public class Game1 : Game
     {
-       
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public ServerState currentState;
+        public ServerState previousState;
+
+        public int counterToEndGame = 0;
+
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
         public List<PlayerS> playerlist=new List<PlayerS>();
         public List<ZombieS> zombielist = new List<ZombieS>();
 
         public List<Object> objlist = new List<Object>();
         public List<String> mslist = new List<String>();
         public int idcounter = 1;
-        // public Server server = new Server();
         public Server server = new Server();
-        Texture2D Player_Texture_Std;
-        Texture2D Zombie_Texture_Std;
+        public Texture2D Player_Texture_Std;
+        public Texture2D Zombie_Texture_Std;
+        public Thread msgchecker;
 
-        //server.Start();
+        private State _currentState;
+
+        private State _nextState;
+
+        public void ChangesState(State state)
+        {
+            _nextState = state;
+        }
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            // server.StartServer();
-         
+            currentState = new ServerState();
+            currentState = ServerState.waitingPlayers;
+            previousState = new ServerState();
+            previousState = ServerState.waitingPlayers;
             server.StartServer();
-           
+            _currentState=new WaitingPlayersState(this, graphics.GraphicsDevice, Content);
         }
 
         protected override void Initialize()
@@ -45,51 +59,15 @@ namespace RoyalServer
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //gdeto vzyal kolvo igrokov
-            /*for (int i = 0; i < kolvoigrokov; i++)
-            {
-
-            }
-            */
-
+       
             Player_Texture_Std = Content.Load<Texture2D>("test");
             Zombie_Texture_Std = Content.Load<Texture2D>("Zombie");
 
-            Thread msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));
-            msgchecker.Start();
-
-            //PlayerS tmpP = new PlayerS(Player_Texture_Std)
-            //{
-            //    _id = idcounter.ToString(),
-            //    _name = "Doven",
-            //    _Size = new Vector2(0.5f, 0.5f),
-            //    _Type = "Player",
-            //    buttons = new PlayerS.PressedButtons(),
-            //    Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
-            //    _rotation = 0,
-
-            //};
-            //tmpP.RandPos();
-            //playerlist.Add(tmpP);
-            //idcounter++;
+            //msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));
+            msgchecker = new Thread(() => server.ReadMessagesNew(this));
+             msgchecker.Start();
 
 
-            // mob generation
-            for (int i = 0; i < 7; i++)
-            {
-                ZombieS tmpZ = new ZombieS(Zombie_Texture_Std)
-                {
-                    _speed = 1.5f,
-                    distance_Min = 200,
-                    _Size = new Vector2(0.2f, 0.3f),
-                    _Type = "Zombie",
-                    Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
-                    _rotation = 0,
-                   // _position = new Vector2(900, 500),
-                };
-                tmpZ.RandPos(playerlist);
-                zombielist.Add(tmpZ);
-            }
         }
 
         protected override void UnloadContent()
@@ -99,28 +77,17 @@ namespace RoyalServer
 
         protected override void Update(GameTime gameTime)
         {
-            //polychenie msg
-            //zapysti menya v potok
-            //start other thread
-
-            ;
-            //other thread
-
-            foreach (var player  in playerlist)
+            if (_nextState != null)
             {
-                player.Update(gameTime, objlist);
+                _currentState = _nextState;
+
+                _nextState = null;
             }
-            foreach (var Zombie in zombielist)
-            {
-                Zombie.Update(gameTime, objlist, playerlist);
-            }
-            // main update
+          
+            _currentState.Update(gameTime);
+            _currentState.PostUpdate(gameTime);
 
-            // send positions
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-
+            previousState = currentState;
             base.Update(gameTime);
         }
 

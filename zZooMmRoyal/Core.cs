@@ -34,4 +34,11 @@ namespace zZooMmRoyal
         }
     }
 
+    public enum ClientState
+    {
+        mainmenu,
+        lobby,
+        gameplay
+    }
+
 }

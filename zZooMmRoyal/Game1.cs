@@ -27,7 +27,10 @@ namespace zZooMmRoyal
         public Client client =new Client();
         public List<Object> objlist;
         public Thread msgchecker;
-
+        public List<String> LobbyPlayersList;
+        public ClientState currentState = ClientState.mainmenu;
+        public ClientState previousState;
+        public int idchecker = 0;
         // MENU
         private State _currentState;
 
@@ -43,7 +46,7 @@ namespace zZooMmRoyal
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            client.StartClient();
+            
             player = new Player()
             {
                 _position = new Vector2(0, 0),
@@ -54,9 +57,9 @@ namespace zZooMmRoyal
                 _id="null"
             };
             objlist = new List<Object>();
-            msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
-            msgchecker.Start();
-            
+            //msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
+            msgchecker = new Thread(() => client.GetInfoNew(this));
+
         }
 
         /// <summary>
@@ -84,8 +87,8 @@ namespace zZooMmRoyal
             texture_Zombie = Content.Load<Texture2D>("Zombie");
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
-            
 
+            LobbyPlayersList = new List<String>();
             //Menu
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
 

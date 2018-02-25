@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using zZooMmRoyal.Controls;
 
 namespace zZooMmRoyal.States
@@ -55,6 +56,17 @@ namespace zZooMmRoyal.States
                 loadGameButton,
                 quitGameButton,
             };
+
+
+            _game.player._position = new Vector2(0, 0);
+            _game.player._Type = "Player";
+            _game.player._input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S };
+            _game.player._name = "Dodek";
+            _game.player._Size = new Vector2(0.5f, 0.5f);
+            _game.player._id = "null";
+            _game.msglist.Clear();
+            _game.objlist.Clear();
+            _game.LobbyPlayersList.Clear();
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -75,7 +87,8 @@ namespace zZooMmRoyal.States
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             // Load new State\
-            _game.ChangesState(new GameState(_game, _graphicsDevice, _content));
+            _game.ChangesState(new LobbyState(_game, _graphicsDevice, _content));
+            _game.currentState = ClientState.lobby;
         }
 
         public override void PostUpdate(GameTime gameTime)

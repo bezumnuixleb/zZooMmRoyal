@@ -13,7 +13,7 @@ namespace RoyalServer
     {
         public String _name;
         public String _id;
-        
+        public bool _isAlive=true;
         public Vector2 _Size;
         public Vector2 _mPosition;
         public class PressedButtons
