@@ -46,7 +46,9 @@ namespace zZooMmRoyal
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
+            graphics.PreferredBackBufferWidth = 1024;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 768;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             player = new Player()
             {
                 _position = new Vector2(0, 0),

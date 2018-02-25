@@ -20,7 +20,12 @@ namespace zZooMmRoyal.States
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
             var buttonFont = _content.Load<SpriteFont>("Fonts/Font");
-            
+            var BackText = _content.Load<Texture2D>("graphics/main_menu/main_menu_background");
+            var Background = new Background(BackText)
+            {
+                Position = new Vector2(0, 0)
+            };
+
             var newGameButton = new Button(buttonTexture, buttonFont)
             {
                 Position = new Vector2(300, 200),
@@ -51,10 +56,11 @@ namespace zZooMmRoyal.States
             quitGameButton.Click += QuitButton_Click;
 
             _components = new List<Component>()
-            {
+            { Background,
                 newGameButton,
                 loadGameButton,
                 quitGameButton,
+               
             };
 
 

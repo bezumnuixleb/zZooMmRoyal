@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Component.cs" />
+    <Compile Include="Controls\Background.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\PlayerInLobby.cs" />
     <Compile Include="Core.cs" />
