@@ -47,7 +47,7 @@ namespace zZooMmRoyal.Controls
         {
             var colour = Color.White;
             if (_isHovering)
-            { colour = Color.Gray; }
+            { colour = Color.Green; }
 
             spriteBatch.Draw(_texture, Rectangle, colour);
 
