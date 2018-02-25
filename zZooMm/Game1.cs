@@ -95,8 +95,8 @@ namespace zZooMm001
 
             //foreach (var zombie in _Zombie)
             //    zombie.Draw(spriteBatch);
-            spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.Origin,player._Size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.Origin, zombie._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.origin,player._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
 
             spriteBatch.End();
             base.Draw(gameTime);

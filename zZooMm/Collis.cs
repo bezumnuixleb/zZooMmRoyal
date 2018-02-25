@@ -25,49 +25,22 @@ namespace rastating
 
         #region Properties
 
-        public Vector2 Position
-        {
-            get { return this.position; }
-        }
+    
 
-        public Texture2D Texture
-        {
-            get { return this.texture; }
-        }
-        public Color[] TextureData
-        {
-            get { return this.textureData; }
-        }
-        public float Rotation
-        {
-            get
-            {
-                return this.rotation;
-            }
-            set
-            {
-                this.rotation = value;
-            }
-        }
 
-        public Vector2 Origin
-        {
-            get { return this.origin; }
-            set { this.origin = value; }
-        }
 
         public Rectangle Rect
         {
-            get { return new Rectangle(0, 0, this.Texture.Width, this.Texture.Height); }
+            get { return new Rectangle(0, 0, this.texture.Width, this.texture.Height); }
         }
         public Matrix Transform
         {
             get
             {
-                return Matrix.CreateTranslation(new Vector3(-this.Origin, 0.0f)) *
+                return Matrix.CreateTranslation(new Vector3(-this.origin, 0.0f)) *
                     Matrix.CreateScale(_Size.X, _Size.Y, 1) *
-                                        Matrix.CreateRotationZ(this.Rotation) * 
-                                        Matrix.CreateTranslation(new Vector3(this.Position, 0.0f));
+                                        Matrix.CreateRotationZ(this.rotation) * 
+                                        Matrix.CreateTranslation(new Vector3(this.position, 0.0f));
             }
         }
 
@@ -160,7 +133,7 @@ namespace rastating
 
             if (this.BoundingRectangle.Intersects(collidable.BoundingRectangle))
             {
-                if (IntersectPixels(this.Transform, this.Texture.Width, this.Texture.Height, this.TextureData, collidable.Transform, collidable.Texture.Width, collidable.Texture.Height, collidable.TextureData))
+                if (IntersectPixels(this.Transform, this.texture.Width, this.texture.Height, this.textureData, collidable.Transform, collidable.texture.Width, collidable.texture.Height, collidable.textureData))
                 {
                     retval = true;
                 }
@@ -172,51 +145,7 @@ namespace rastating
      
 
 
-        public static bool IntersectPixels(Rectangle rectangleA, Color[] dataA, Rectangle rectangleB, Color[] dataB)
-        {
-            // Find the bounds of the rectangle intersection
-            int top = Math.Max(rectangleA.Top, rectangleB.Top);
-            int bottom = Math.Min(rectangleA.Bottom, rectangleB.Bottom);
-            int left = Math.Max(rectangleA.Left, rectangleB.Left);
-            int right = Math.Min(rectangleA.Right, rectangleB.Right);
 
-            // Check every point within the intersection bounds
-            for (int y = top; y < bottom; y++)
-            {
-                for (int x = left; x < right; x++)
-                {
-                    // Get the color of both pixels at this point
-                    Color colorA = dataA[(x - rectangleA.Left) +
-                                         (y - rectangleA.Top) * rectangleA.Width];
-                    Color colorB = dataB[(x - rectangleB.Left) +
-                                         (y - rectangleB.Top) * rectangleB.Width];
-
-                    // If both pixels are not completely transparent,
-                    if (colorA.A != 0 && colorB.A != 0)
-                    {
-                        // then an intersection has been found
-                        return true;
-                    }
-                }
-            }
-
-            // No intersection found
-            return false;
-        }
-
-        private void BuildMatrix()
-        {
-            // Build the transformation matrix
-            Matrix TransformMatrix =
-                // The location.center is the center of the texture 2d. Where it is placed on the screen.
-                Matrix.CreateTranslation(new Vector3(-origin, 0.0f)) *
-                // Size width / height are the size of the texture after it is scaled.
-                Matrix.CreateScale(_Size.X*texture.Width, _Size.Y * texture.Height, 1) *
-                // No rotation.
-                Matrix.CreateRotationZ(rotation) *
-                // Location.Position is the is the top coordinates for the texture2d before scaling.
-                Matrix.CreateTranslation(new Vector3(Position, 0.0f));
-        }
         public static bool IntersectPixels(Matrix transformA, int widthA, int heightA, Color[] dataA, Matrix transformB, int widthB, int heightB, Color[] dataB)
         {
             // Calculate a matrix which transforms from A's local space into
