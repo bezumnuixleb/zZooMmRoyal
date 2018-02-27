@@ -45,8 +45,10 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="MobZombie.cs" />
+    <Compile Include="PhysZ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Zombe.cs" />
     <Compile Include="zZooMm.cs" />
   </ItemGroup>
   <ItemGroup>

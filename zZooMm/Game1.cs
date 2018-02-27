@@ -16,7 +16,7 @@ namespace zZooMm001
         private List<MobZombie> _Zombie;
 
         public CollidableObject player;
-        public CollidableObject zombie;
+        public Zombe zombie,zombie2;
         public Color changedColor;
         public Game1()
         {
@@ -51,9 +51,11 @@ namespace zZooMm001
             player = new CollidableObject(texture, new Vector2(600, 600))
             {
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
-                _Size=new Vector2(0.5f,0.5f)
+                _Size=new Vector2(0.3f,0.3f),
+                phys=new PhysZ(1f)
             };
-            zombie = new CollidableObject(textureZ, new Vector2(200, 150)) {_Size=new Vector2(0.5f,0.5f) };
+            zombie = new Zombe(textureZ, new Vector2(200, 150)) {_Size=new Vector2(0.5f,0.5f), phys = new PhysZ(1f) };
+            zombie2 = new Zombe(textureZ, new Vector2(600, 150)) { _Size = new Vector2(0.5f, 0.5f), phys = new PhysZ(1f) };
         }
 
 
@@ -71,16 +73,32 @@ namespace zZooMm001
 
             //foreach (var zombie in _Zombie)
             //    zombie.Update(_Plain, 300);
+            Vector2 oldPosPl = new Vector2(player.position.X, player.position.Y);
+            player.Update(gameTime);
+            zombie.UpdateZombe(gameTime, player);
+            zombie2.UpdateZombe(gameTime, player);
             if (player.IsColliding(zombie))
             {
-                changedColor=Color.Red;
+                player.phys.Impulse += zombie.getVectorMove()*15;
+                zombie.phys.Impulse-= zombie.getVectorMove()*5;
+
+            }
+            if (player.IsColliding(zombie2))
+            {
+                player.phys.Impulse += zombie2.getVectorMove() * 15;
+                zombie2.phys.Impulse -= zombie2.getVectorMove() * 5;
+
+            }
+            if (zombie.IsColliding(zombie2))
+            {
+                zombie.position -=new Vector2(1,1);
+                zombie2.position += new Vector2(1, 1);
+
             }
             else
             {
                 changedColor = Color.Blue;
             }
-            player.Move();
-
             base.Update(gameTime);
         }
 
@@ -97,6 +115,7 @@ namespace zZooMm001
             //    zombie.Draw(spriteBatch);
             spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.origin,player._Size, SpriteEffects.None, 0f);
             spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(zombie2.texture, zombie2.position, null, Color.White, zombie2.rotation, zombie2.origin, zombie2._Size, SpriteEffects.None, 0f);
 
             spriteBatch.End();
             base.Draw(gameTime);

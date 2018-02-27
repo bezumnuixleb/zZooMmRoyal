@@ -22,10 +22,16 @@ namespace rastating
         public Vector2 _Size;
 
         #endregion
+        #region PhysZ
+
+        public PhysZ phys;
+
+        #endregion
+
 
         #region Properties
 
-    
+
 
 
 
@@ -68,7 +74,15 @@ namespace rastating
 
         #region yarik
         public Input _input;
+        public void Update(GameTime gameTime)
+        {
+            Vector2 nulled = new Vector2(0, 0);
+            phys.Force = nulled;
+            Move();
 
+            position=phys.Update(gameTime,position);
+          //  position = phys.ReturnCorner(position);
+        }
         public void Move()
         {
             /////////////////////////////////////////////////////
@@ -92,19 +106,20 @@ namespace rastating
                 return;
             if (Keyboard.GetState().IsKeyDown(_input.Left))
             {
-                position.X -= 2f;
+                phys.Force.X = -5f;
+                
             }
             if (Keyboard.GetState().IsKeyDown(_input.Right))
             {
-                position.X += 2f;
+                phys.Force.X = 5f;
             }
             if (Keyboard.GetState().IsKeyDown(_input.Up))
             {
-                position.Y -= 2f;
+                phys.Force.Y = -5f;
             }
             if (Keyboard.GetState().IsKeyDown(_input.Down))
             {
-                position.Y += 2f;
+                phys.Force.Y = 5f;
             }
 
         }
