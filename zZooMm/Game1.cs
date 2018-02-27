@@ -2,7 +2,11 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using rastating;
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using VelcroPhysics.Dynamics;
+using VelcroPhysics.Utilities;
 
 namespace zZooMm001
 {
@@ -15,8 +19,13 @@ namespace zZooMm001
         private List<Plain> _Plain;
         private List<MobZombie> _Zombie;
 
-        public CollidableObject player;
-        public Zombe zombie,zombie2;
+        private Matrix _view;//
+        private Vector2 _cameraPosition;//
+        private Vector2 _screenCenter;//
+        private readonly World _world;//
+        public List<ObjectNew> zombelest;
+        public ObjectNew player;
+        public ObjectNew zombie,zombie2;
         public Color changedColor;
         public Game1()
         {
@@ -24,6 +33,7 @@ namespace zZooMm001
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
+            _world = new World(new Vector2(0, 0));//
         }
 
         protected override void Initialize()
@@ -33,8 +43,13 @@ namespace zZooMm001
 
         protected override void LoadContent()
         {
-
+            zombelest = new List<ObjectNew>();
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.IsMouseVisible = true;
+            _screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);//
+            _view = Matrix.Identity;//
+            _cameraPosition = Vector2.Zero;//
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(200f);//
 
             var texture = Content.Load<Texture2D>("New_1");
             var textureZ = Content.Load<Texture2D>("Zombie");
@@ -48,14 +63,24 @@ namespace zZooMm001
             //    new MobZombie(textureZ) {_position = new Vector2(100,100), _speed = 2f, _Size = new Vector2(1.0f,1.0f), Origin = new Vector2(textureZ.Width/2,textureZ.Height/2),_rotation = 0},
             //    new MobZombie(textureZ) {_position = new Vector2(0,0), _speed = 2f, _Size = new Vector2(1.0f,1.0f), Origin = new Vector2(textureZ.Width/2,textureZ.Height/2),_rotation = 0},
             //};
-            player = new CollidableObject(texture, new Vector2(600, 600))
+            player = new ObjectNew(texture, new Vector2(600, 600), _world)
             {
-                _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
                 _Size=new Vector2(0.3f,0.3f),
-                phys=new PhysZ(1f)
+                input=new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
             };
-            zombie = new Zombe(textureZ, new Vector2(200, 150)) {_Size=new Vector2(0.5f,0.5f), phys = new PhysZ(1f) };
-            zombie2 = new Zombe(textureZ, new Vector2(600, 150)) { _Size = new Vector2(0.5f, 0.5f), phys = new PhysZ(1f) };
+            zombie = new ObjectNew(textureZ, new Vector2(200, 150),_world);
+            zombie2 = new ObjectNew(textureZ, new Vector2(200, 150), _world);
+            for (int i = 0; i < 6; i++)
+
+            {
+                Random rnd = new Random();
+                Thread.Sleep(20);
+                Vector2 _position = new Vector2();
+                _position.X = rnd.Next(0, 500);
+                _position.Y = rnd.Next(0, 300);
+                zombie = new ObjectNew(textureZ, _position, _world);
+                zombelest.Add(zombie);
+            }
         }
 
 
@@ -68,37 +93,20 @@ namespace zZooMm001
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            //foreach (var plain in _Plain)
-            //    plain.Update();
-
-            //foreach (var zombie in _Zombie)
-            //    zombie.Update(_Plain, 300);
-            Vector2 oldPosPl = new Vector2(player.position.X, player.position.Y);
-            player.Update(gameTime);
-            zombie.UpdateZombe(gameTime, player);
-            zombie2.UpdateZombe(gameTime, player);
-            if (player.IsColliding(zombie))
+            player.UpdateKeys();
+            zombie.MoveToPlayer(player);
+            zombie2.MoveToPlayer(player);
+            foreach (var item in zombelest)
             {
-                player.phys.Impulse += zombie.getVectorMove()*15;
-                zombie.phys.Impulse-= zombie.getVectorMove()*5;
+                item.MoveToPlayer(player);
 
             }
-            if (player.IsColliding(zombie2))
-            {
-                player.phys.Impulse += zombie2.getVectorMove() * 15;
-                zombie2.phys.Impulse -= zombie2.getVectorMove() * 5;
-
-            }
-            if (zombie.IsColliding(zombie2))
-            {
-                zombie.position -=new Vector2(1,1);
-                zombie2.position += new Vector2(1, 1);
-
-            }
-            else
-            {
-                changedColor = Color.Blue;
-            }
+            _world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);///////////////////
+            _cameraPosition.X = ConvertUnits.ToDisplayUnits(player.body.Position.X) ;
+            _cameraPosition.Y = ConvertUnits.ToDisplayUnits(player.body.Position.Y);
+            _view = Matrix.CreateTranslation(
+                -ConvertUnits.ToDisplayUnits(player.body.Position.X),
+                -ConvertUnits.ToDisplayUnits(player.body.Position.Y), 0) * Matrix.CreateTranslation(_screenCenter.X, _screenCenter.Y, 0);
             base.Update(gameTime);
         }
 
@@ -106,17 +114,16 @@ namespace zZooMm001
         {
             GraphicsDevice.Clear(changedColor);
 
+            //spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, _view);
             spriteBatch.Begin();
+           spriteBatch.Draw(player.texture, ConvertUnits.ToDisplayUnits(player.body.Position), null, Color.White, player.rotation, player.origin,player._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(zombie.texture, ConvertUnits.ToDisplayUnits(zombie.body.Position), null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(zombie2.texture, ConvertUnits.ToDisplayUnits(zombie2.body.Position), null, Color.White, zombie2.rotation, zombie2.origin, zombie2._Size, SpriteEffects.None, 0f);
+            foreach (var zombie in zombelest)
+            {
+                spriteBatch.Draw(zombie.texture, ConvertUnits.ToDisplayUnits(zombie.body.Position), null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
 
-            //foreach (var plain in _Plain)
-            //    plain.Draw(spriteBatch);
-
-            //foreach (var zombie in _Zombie)
-            //    zombie.Draw(spriteBatch);
-            spriteBatch.Draw(player.texture, player.position, null, Color.White, player.rotation, player.origin,player._Size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(zombie.texture, zombie.position, null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(zombie2.texture, zombie2.position, null, Color.White, zombie2.rotation, zombie2.origin, zombie2._Size, SpriteEffects.None, 0f);
-
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
