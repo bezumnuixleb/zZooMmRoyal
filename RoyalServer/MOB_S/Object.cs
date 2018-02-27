@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
+using PhysicZ;
 
 namespace RoyalServer
 {
@@ -19,8 +20,10 @@ namespace RoyalServer
 
         public Color[] textureData;
         public Vector2 _Size;
+        public PhysZ phys;
 
-        #region Properties
+
+        #region Collision
 
 
 
@@ -60,18 +63,11 @@ namespace RoyalServer
             get { return CalculateBoundingRectangle(this.Rect, this.Transform); }
         }
 
-        #endregion
+       
 
 
-        public virtual void Update(GameTime gameTime,List<Object> gameobj)
-        {
-
-        }
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-
-        }
-
+        
+      
 
         public void LoadTexture(Texture2D texture)
         {
@@ -86,6 +82,7 @@ namespace RoyalServer
             this.LoadTexture(texture);
             this.Origin = origin;
         }
+        #endregion
 
         #region PixelCollision
 
@@ -192,14 +189,44 @@ namespace RoyalServer
         }
 
         #endregion
+
+
+        public virtual void Update(GameTime gameTime, List<Object> gameobj)
+        {
+
+        }
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+
+        }
+        public void Contact(Object other)
+        {
+            _position += new Vector2(3, 3);
+            Vector2 NewOtherPos = new Vector2(other._position.X,other._position.Y); NewOtherPos -= new Vector2(3, 3);
+            other._position = NewOtherPos;
+
+        }
+        public void Punch(Object puncher)
+        {
+            phys.Impulse += puncher.getVectorSight() * 15;
+            Vector2 NewOtherImp = new Vector2(puncher.phys.Impulse.X, puncher.phys.Impulse.Y);
+            NewOtherImp -= puncher.getVectorSight() * 5;
+            puncher.phys.Impulse = NewOtherImp;
+        }
+
+        public Vector2 getVectorSight()
+        {
+            return new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - _rotation) * 4f, (float)Math.Cos(MathHelper.ToRadians(90) - _rotation) * 4f);
+        }
+
+        public void ClearForce()
+        {
+            Vector2 nulled = new Vector2(0, 0);
+            phys.Force = nulled;
+        }
     }
 
 
 
-    public enum ServerState
-    {
-        waitingPlayers,
-        lobby,
-        gameplay
-    }
+
 }

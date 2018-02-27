@@ -11,10 +11,9 @@ namespace RoyalServer.MOB_S
 {
     public class ZombieS : Object
     {
-        //public Vector2 _Size;
-        public float _speed = 1f;
+        //public float _speed = 1f;
         public float distance_Min;
-
+        public int number;
 
         public ZombieS(Texture2D texture) : base(texture, new Vector2(0, 0))
         {
@@ -22,6 +21,7 @@ namespace RoyalServer.MOB_S
 
         public void Update(GameTime gameTime, List<Object> gameobj, List<PlayerS> playerlist)
         {
+            ClearForce();
             foreach (var player in playerlist)
             {
                 double formDistance = (double)((player._position.X - _position.X) * (player._position.X - _position.X) + (player._position.Y - _position.Y) * (player._position.Y - _position.Y));
@@ -39,11 +39,14 @@ namespace RoyalServer.MOB_S
                     // движение к персонажу 
 
                     var directory = new Vector2((float)Math.Cos(MathHelper.ToRadians(90) - _rotation), -(float)Math.Sin(MathHelper.ToRadians(90) - _rotation));
-                    _position += direction * _speed;
-                    //_position.X = _speed * (plain._position.X - _position.X) / distance;
-                    //_position.Y = _speed * (plain._position.Y - _position.Y) / distance;
+
+
+                    phys.Force.X = (float)Math.Sin(MathHelper.ToRadians(90) - _rotation) * 2f;
+                    phys.Force.Y = (float)Math.Cos(MathHelper.ToRadians(90) - _rotation) * 2f;
                 }
             }
+            _position=phys.Update(gameTime, _position);
+
         }
 
         public override void Draw(SpriteBatch spriteBatch)

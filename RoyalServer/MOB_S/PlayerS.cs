@@ -34,25 +34,27 @@ namespace RoyalServer
         {
             //mouse pos getting
             Move();
+            ClearForce();
             MoveButtons();
+            _position=phys.Update(gameTime, _position);
         }
         public void MoveButtons()
         {
             if (buttons.up)
             {
-                _position.Y -= _speed;
+                phys.Force.Y = -5f;
             }
             if (buttons.down)
             {
-                _position.Y += _speed;
+                phys.Force.Y = 5f;
             }
             if (buttons.right)
             {
-                _position.X += _speed;
+                phys.Force.X = 5f;
             }
             if (buttons.left)
             {
-                _position.X -= _speed;
+                phys.Force.X = -5f;
             }
 
             //others buttons kek

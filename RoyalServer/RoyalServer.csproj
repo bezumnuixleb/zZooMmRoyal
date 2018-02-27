@@ -41,11 +41,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Core.cs" />
+    <Compile Include="MOB_S\Object.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="MOB_S\ZombieS.cs" />
     <Compile Include="Network.cs" />
-    <Compile Include="PlayerS.cs" />
+    <Compile Include="MOB_S\PhysZ.cs" />
+    <Compile Include="MOB_S\PlayerS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="States\GameState.cs" />

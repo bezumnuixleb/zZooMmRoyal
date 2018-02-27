@@ -18,6 +18,7 @@ namespace zZooMmRoyal.States
         SpriteFont buttonFont;
         public LobbyState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
+            game.player._Size = new Vector2(0.3f, 0.3f);
             buttonTexture = _content.Load<Texture2D>("Controls/Buttons");
             buttonFont = _content.Load<SpriteFont>("Fonts/menu_font");
 

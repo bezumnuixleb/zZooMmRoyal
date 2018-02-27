@@ -44,22 +44,40 @@ namespace zZooMmRoyal.States
                 player.Update(gameTime, _game.objlist);
                 if (player._isAlive) someoneisAlive = true;
             }
-
             foreach (var Zombie in _game.zombielist)
             {
                 Zombie.Update(gameTime, _game.objlist, _game.playerlist);
             }
+            foreach (var ZombieMain in _game.zombielist)
+            {
+                foreach (var Zombie in _game.zombielist)
+                {
+                    if (ZombieMain.number != Zombie.number && Zombie.IsColliding(ZombieMain))
+                    {
+
+                        Zombie._position -= new Vector2(10, 10);
+                        ZombieMain._position += new Vector2(10, 10);
+
+                    }
+                }
+            }
+
             foreach (var player in _game.playerlist)
             {
                 foreach (var Zombie in _game.zombielist)
                 {
-                    player.IsColliding(Zombie);
+                    if (player.IsColliding(Zombie))
+                    {
+                        player.phys.Impulse += Zombie.getVectorSight() * 15;
+                        Zombie.phys.Impulse -= Zombie.getVectorSight() * 5;
+
+                    }
                 }
            
             }
 
 
-
+       
             // main update
 
             // send positions

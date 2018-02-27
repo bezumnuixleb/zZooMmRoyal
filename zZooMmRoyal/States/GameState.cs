@@ -62,7 +62,7 @@ namespace zZooMmRoyal.States
                     obj._texture = _game.text;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.3f, 0.3f), SpriteEffects.None, 0f);
 
                 }
                 if (obj._Type == "Mob_Zombie")

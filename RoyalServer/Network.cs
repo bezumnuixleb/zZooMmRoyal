@@ -69,6 +69,10 @@ namespace RoyalServer
                                             buttons = new PlayerS.PressedButtons(),
                                             Origin = new Vector2(game.Player_Texture_Std.Width / 2, game.Player_Texture_Std.Height / 2),
                                             _rotation = 0,
+                                            phys=new PhysicZ.PhysZ(1f)
+                                            {
+
+                                            }
 
                                         };
                                         tmpP.RandPos();
@@ -345,5 +349,11 @@ namespace RoyalServer
                 msg += " error"; return msg;
             }
         }
+    }
+    public enum ServerState
+    {
+        waitingPlayers,
+        lobby,
+        gameplay
     }
 }

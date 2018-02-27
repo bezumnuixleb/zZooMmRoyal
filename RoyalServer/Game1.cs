@@ -60,7 +60,7 @@ namespace RoyalServer
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
        
-            Player_Texture_Std = Content.Load<Texture2D>("test");
+            Player_Texture_Std = Content.Load<Texture2D>("Player/New_1");
             Zombie_Texture_Std = Content.Load<Texture2D>("Zombie");
 
             //msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));

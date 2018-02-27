@@ -54,7 +54,7 @@ namespace zZooMmRoyal
                 _Type = "Player",
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
                 _name = "Dodek",
-                _Size = new Vector2(0.5f, 0.5f),
+                _Size = new Vector2(0.3f, 0.3f),
                 _id="null"
             };
             objlist = new List<Object>();
@@ -84,7 +84,7 @@ namespace zZooMmRoyal
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            text = Content.Load<Texture2D>("test");
+            text = Content.Load<Texture2D>("Player/New_1");
             texture_Zombie = Content.Load<Texture2D>("Zombie");
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
