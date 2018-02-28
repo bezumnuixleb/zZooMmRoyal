@@ -26,22 +26,29 @@ namespace zZooMm001
             texture = txt;
             _Size = new Vector2(0.3f, 0.3f);
             _SizeZ =new Vector2(0.5f, 0.5f);
-            body =BodyFactory.CreateCircle(world, ConvertUnits.ToSimUnits(texture.Width/ 2 * _Size.X), 0, ConvertUnits.ToSimUnits(position),BodyType.Dynamic);//)
+            
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-            body.Restitution = 0.3f;
-            body.Friction = 0.5f;
+            
+          
         }
-        public void UpdateKeys()
+        public void UpdateKeys(Viewport NewViewport)
         {
             MouseState currentMouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
 
-            Vector2 direction = mousePosition - ConvertUnits.ToDisplayUnits(body.Position);
+            Vector2 centreScreen = new Vector2(NewViewport.Width / 2, NewViewport.Height / 2);
+
+            //Vector2 mousePosition2 = new Vector2(ConvertUnits.ToDisplayUnits(body.Position.X) - currentMouseState.X, ConvertUnits.ToDisplayUnits(body.Position.Y) - currentMouseState.Y);
+
+
+            // Vector2 Centre = new Vector2(NewViewport.Width / 2), NewViewport.Height / 2));
+            Vector2 direction = mousePosition - centreScreen;
             direction.Normalize();
 
-            rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X) + MathHelper.ToRadians(90);// + 90 градусов из за картинки 
+            rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X) + MathHelper.ToRadians(90);// + 90 градусов из за картинки
 
-            body.ResetDynamics();
+            if(Keyboard.GetState().IsKeyUp(input.Left)|| Keyboard.GetState().IsKeyUp(input.Down) || Keyboard.GetState().IsKeyUp(input.Right) || Keyboard.GetState().IsKeyUp(input.Up))body.ResetDynamics();
+
             if (Keyboard.GetState().IsKeyDown(input.Left))
             {
                 body.ApplyLinearImpulse(new Vector2(-4, 0));
@@ -71,7 +78,7 @@ namespace zZooMm001
             // движение к персонажу 
             body.ResetDynamics();
 
-            body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - rotation) * 4f,(float)Math.Cos(MathHelper.ToRadians(90) - rotation) * 4f));
+            body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - rotation) * 0.2f,(float)Math.Cos(MathHelper.ToRadians(90) - rotation) * 0.2f));
 
 
         }
