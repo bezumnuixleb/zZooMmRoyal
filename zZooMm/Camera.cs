@@ -10,6 +10,7 @@ namespace zZooMm001
 {
     public class Camera
     {
+        //matr
         private Matrix _transform;
         public int Scroll = 0;
 
