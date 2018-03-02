@@ -69,7 +69,9 @@ namespace zZooMm001
             player = new ObjectNew(texture, new Vector2(600, 600), _world)
             {
                 _Size = new Vector2(0.3f, 0.3f),
-                input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S }
+                input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
+                centreScreen = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2),
+
             };
             player.body= BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(texture.Width / 2 * player._Size.X), 3f, ConvertUnits.ToSimUnits(new Vector2(600, 600)), BodyType.Dynamic);//)
             player.body.UserData="Player";
@@ -103,7 +105,7 @@ namespace zZooMm001
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            player.UpdateKeys(GraphicsDevice.Viewport);
+            player.UpdateKeys();
             foreach (var item in zombelest)
             {
                 item.MoveToPlayer(player);
@@ -163,7 +165,7 @@ namespace zZooMm001
             {
                 tile.Draw(spriteBatch);
             }
-            spriteBatch.Draw(player.texture, ConvertUnits.ToDisplayUnits(player.body.Position), null, Color.White, player.rotation, player.origin,player._Size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(player.texture, ConvertUnits.ToDisplayUnits(player.body.Position), null, Color.White, player.current_rotation, player.origin,player._Size, SpriteEffects.None, 0f);
             foreach (var zombie in zombelest)
             {
                 spriteBatch.Draw(zombie.texture, ConvertUnits.ToDisplayUnits(zombie.body.Position), null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);

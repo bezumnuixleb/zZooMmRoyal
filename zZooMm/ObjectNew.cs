@@ -20,33 +20,25 @@ namespace zZooMm001
         public Vector2 _Size;
         public Vector2 _SizeZ;
         public Input input;
-        public float rotation;
+
+        public float current_rotation = 0;
+        public float rotation = 0;
+        public float speed_rotation;
+        public Vector2 centreScreen;
+
         public ObjectNew(Texture2D txt,Vector2 position,World world)
         {
             texture = txt;
             _Size = new Vector2(0.3f, 0.3f);
             _SizeZ =new Vector2(0.5f, 0.5f);
-            
+            speed_rotation = 4f;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
             
           
         }
-        public void UpdateKeys(Viewport NewViewport)
+        public void UpdateKeys()
         {
-            MouseState currentMouseState = Mouse.GetState();
-            Vector2 mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
-
-            Vector2 centreScreen = new Vector2(NewViewport.Width / 2, NewViewport.Height / 2);
-
-            //Vector2 mousePosition2 = new Vector2(ConvertUnits.ToDisplayUnits(body.Position.X) - currentMouseState.X, ConvertUnits.ToDisplayUnits(body.Position.Y) - currentMouseState.Y);
-
-
-            // Vector2 Centre = new Vector2(NewViewport.Width / 2), NewViewport.Height / 2));
-            Vector2 direction = mousePosition - centreScreen;
-            direction.Normalize();
-
-            rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X) + MathHelper.ToRadians(90);// + 90 градусов из за картинки
-
+            Update_Rotation();
             if(Keyboard.GetState().IsKeyUp(input.Left)|| Keyboard.GetState().IsKeyUp(input.Down) || Keyboard.GetState().IsKeyUp(input.Right) || Keyboard.GetState().IsKeyUp(input.Up))body.ResetDynamics();
 
             if (Keyboard.GetState().IsKeyDown(input.Left))
@@ -67,6 +59,42 @@ namespace zZooMm001
                 body.ApplyLinearImpulse(new Vector2(0, 4));
             }
         }
+
+        public void Update_Rotation()
+        {
+
+            MouseState currentMouseState = Mouse.GetState();
+            Vector2 mousePosition = new Vector2(currentMouseState.X, currentMouseState.Y);
+
+            Vector2 direction = mousePosition - centreScreen;
+            direction.Normalize();
+            rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X) + MathHelper.ToRadians(90);// + 90 градусов из за картинки
+
+            if (Math.Abs(rotation - current_rotation) > MathHelper.ToRadians(180))
+            {
+                if (rotation > current_rotation)
+                {
+                    rotation -= MathHelper.ToRadians(360);
+                }
+                else
+                {
+                    rotation += MathHelper.ToRadians(360);
+                }
+            }
+
+            if (current_rotation > MathHelper.ToRadians(360)) current_rotation -= MathHelper.ToRadians(360);
+            if (current_rotation < MathHelper.ToRadians(0)) current_rotation += MathHelper.ToRadians(360);
+
+            if (rotation > current_rotation )
+            {
+                current_rotation += MathHelper.ToRadians(speed_rotation);
+            }
+            if (rotation < current_rotation )
+            {
+                current_rotation -= MathHelper.ToRadians(speed_rotation);
+            }
+        }
+
         public void MoveToPlayer(ObjectNew player)
         {
             Vector2 mousePosition = ConvertUnits.ToDisplayUnits(player.body.Position);
