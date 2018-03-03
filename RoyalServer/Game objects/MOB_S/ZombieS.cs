@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RoyalServer.Game_objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ using VelcroPhysics.Utilities;
 
 namespace RoyalServer.MOB_S
 {
-    public class ZombieS : Object
+    public class ZombieS : ObjectS
     {
         public int number;
         public float distance_Min;
-        public ZombieS(Texture2D txt, World _world) : base(txt, new Vector2(0, 0))
+        public ZombieS(Texture2D txt, World _world,TipTela _type=TipTela.Mob_1) : base(txt)
         {
      
 
@@ -25,15 +26,12 @@ namespace RoyalServer.MOB_S
             _Size = new Vector2(0.5f, 0.5f);
             speed_rotation = 4f;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-
-            body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(texture.Width / 2 * _Size.X), 0.2f, ConvertUnits.ToSimUnits(new Vector2(0,0)), BodyType.Dynamic);
-            body.Restitution = 0.3f;
-            body.Friction = 0.5f;
-            body.UserData = "Zombie";
+            //посчитать размеры офк норм для зомби
+            body = BodyConstructor.CreateBody(_type, _world, this, 0.5f);
 
         }
 
-        public void Update(GameTime gameTime, List<Object> gameobj, List<PlayerS> playerlist)
+        public void Update(GameTime gameTime, List<ObjectS> gameobj, List<PlayerS> playerlist)
         {
             foreach (var player in playerlist)
             {

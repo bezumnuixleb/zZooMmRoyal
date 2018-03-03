@@ -11,35 +11,32 @@ using VelcroPhysics.Dynamics;
 
 namespace RoyalServer
 {
-   public class Object
+   public class ObjectS
     {
         public Texture2D texture;
         public Body body;
         public Vector2 origin;
         public Vector2 _Size;
+
         //public Input input;
 
         public float rotation;
         public float speed_rotation;
-        public Vector2 centreScreen;
 
-        public Object(Texture2D txt, Vector2 position) : this(txt, position, 0.0f)
+
+        public ObjectS(Texture2D txt,float Size=1f,String _type="null")
         {
             texture = txt;
-            _Size = new Vector2(0.3f, 0.3f);
+            //_Size = new Vector2(0.3f, 0.3f);
             //_SizeZ = new Vector2(0.5f, 0.5f);
+            _Size = new Vector2(Size,Size);
             speed_rotation = 4f;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
-        public Object(Texture2D texture, Vector2 position, float rotation)
-        {
-            //this.LoadTexture(texture);
-            //this.body.Position = position;
-            //this.body.Rotation = rotation;
-        }
 
-        public virtual void Update(GameTime gameTime, List<Object> gameobj)
+
+        public virtual void Update(GameTime gameTime, List<ObjectS> gameobj)
         {
 
         }
@@ -48,19 +45,8 @@ namespace RoyalServer
 
         }     
 
-        public void LoadTexture(Texture2D texture)
-        {
-            this.texture = texture;
-            this.origin = new Vector2(texture.Width / 2, texture.Height / 2);
-        }
-
-        public void LoadTexture(Texture2D texture, Vector2 origin)
-        {
-            this.LoadTexture(texture);
-            this.origin = origin;
-        }
-
-      
+       
+    
 
     }
 

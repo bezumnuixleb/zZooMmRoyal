@@ -12,6 +12,7 @@ using VelcroPhysics.Shared;
 using VelcroPhysics.Utilities;
 using VelcroPhysics.Collision.Shapes;
 using VelcroPhysics.Factories;
+using RoyalServer.Game_objects;
 
 namespace RoyalServer
 {
@@ -25,25 +26,33 @@ namespace RoyalServer
         //private List<Plain> _Plain;
         //private List<MobZombie> _Zombie;
         private Vector2 _screenCenter;//
+        public Color defColor;
         public readonly World _world;//
-
+        //gameobj list
         public List<PlayerS> playerlist = new List<PlayerS>();
         public List<ZombieS> zombielist = new List<ZombieS>();
-
-
-
+        public List<ObjectS> solidlist = new List<ObjectS>();
+        public List<Tile> tiles = new List<Tile>();
+        public struct TextureList
+        {
+            public Texture2D Player_1;
+            public Texture2D Zombie_1;
+            public Texture2D Box_2;
+            public Texture2D Tile_1;
+        }
+        public TextureList textures;
+        
 
         public ServerState currentState;
         public ServerState previousState;
 
         public int counterToEndGame = 0;
 
-        public List<Object> objlist = new List<Object>();
+        public List<ObjectS> objlist = new List<ObjectS>();
         public List<String> mslist = new List<String>();
         public int idcounter = 1;
         public Server server = new Server();
-        public Texture2D Player_Texture_Std;
-        public Texture2D Zombie_Texture_Std;
+        
         public Thread msgchecker;
 
         private State _currentState;
@@ -56,11 +65,12 @@ namespace RoyalServer
         }
         public Game1()
         {
+            defColor = Color.CornflowerBlue;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
             _world = new World(new Vector2(0, 0));//
-
+            textures = new TextureList();
             Content.RootDirectory = "Content";
             currentState = new ServerState();
             currentState = ServerState.waitingPlayers;
@@ -79,10 +89,12 @@ namespace RoyalServer
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-       
-            Player_Texture_Std = Content.Load<Texture2D>("Player/New_1");
-            Zombie_Texture_Std = Content.Load<Texture2D>("Zombie");
-
+            #region TextDownload
+            textures.Player_1= Content.Load<Texture2D>("Player/New_1");
+            textures.Zombie_1 = Content.Load<Texture2D>("Zombie");
+            textures.Box_2 = Content.Load<Texture2D>("graphics/level/enviroment/boxes/box_2");
+            textures.Tile_1= Content.Load<Texture2D>("graphics/level/ground/grass_tile");
+            #endregion
             //msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));
             msgchecker = new Thread(() => server.ReadMessagesNew(this));
              msgchecker.Start();
@@ -120,7 +132,7 @@ namespace RoyalServer
         protected override void Draw(GameTime gameTime)
         {
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(defColor);
 
             //  spriteBatch.Begin();
             //  spriteBatch.Draw(Player_Texture_Std, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);

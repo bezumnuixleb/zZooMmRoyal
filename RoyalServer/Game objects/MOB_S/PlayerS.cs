@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RoyalServer.Game_objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ using VelcroPhysics.Utilities;
 
 namespace RoyalServer
 {
-   public class PlayerS : Object
+   public class PlayerS : ObjectS
     {
         public String _name;
         public String _id;
@@ -28,8 +29,10 @@ namespace RoyalServer
                 up = false; down = false; left = false; right = false;
             }
         }
+        public Vector2 centreScreen;
+
         public PressedButtons buttons;
-        public PlayerS(Texture2D txt, World _world):base(txt, new Vector2(0, 0))
+        public PlayerS(Texture2D txt, World _world):base(txt)
         {
             buttons = new PressedButtons();
 
@@ -38,31 +41,12 @@ namespace RoyalServer
             //_SizeZ = new Vector2(0.5f, 0.5f);
             speed_rotation = 4f;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-
-
-            Vertices bodyvert = new Vertices(8);
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(-90, 51)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(-59, -49)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(22, -104)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(60, -63)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(86, 4)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(77, 81)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(9, 105)));
-            bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(-44, 109)));
-
-            PolygonShape playershape = new PolygonShape(bodyvert, 2f);
-
-            body = BodyFactory.CreateBody(_world);
-            body.CreateFixture(playershape);
-
-            body.BodyType = BodyType.Dynamic;
-            body.UserData = "Player";
-            body.Restitution = 0.3f;
-            body.Friction = 0.5f;
+            //пересчетать для плеера на 512х512 и поменять его размер
+            body = BodyConstructor.CreateBody(TipTela.Player_1, _world,null,1f);
 
             RandPos();
         }
-        public override void Update(GameTime gameTime, List<Object> gameobj)
+        public override void Update(GameTime gameTime, List<ObjectS> gameobj)
         {
             //mouse pos getting
             Move();

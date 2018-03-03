@@ -48,36 +48,61 @@ namespace zZooMmRoyal.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred,
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,
                              null,
                               null, null, null, null,
                               _game.camera._Ttansfor);
 
+            
+            _game.msgchecker.Suspend();
             foreach (var copmonent in _components)
                 copmonent.Draw(gameTime, spriteBatch);
 
             _game.player.Draw(spriteBatch);
-            _game.msgchecker.Suspend();
             foreach (var obj in _game.objlist)
             {
+                #region Objects
                 if (obj._Type == "Other_Player")
                 {
-                    obj._texture = _game.text;
+                    obj._texture = _game.textures.Player_1;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0.5f);
 
                 }
                 if (obj._Type == "Mob_Zombie")
                 {
-                    obj._texture = _game.texture_Zombie;
+                    obj._texture = _game.textures.Zombie_1;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin,obj._size, SpriteEffects.None, 0.5f);
 
                 }
-            }
+                if (obj._Type == "Box_2")
+                {
+                    obj._texture = _game.textures.Box_2;
+                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0.5f);
+
+                }
+                if (obj._Type == "Tile_Grass")
+                {
+                    obj._texture = _game.textures.Tile_1;
+                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
+
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0f);
+                }
+                if (obj._Type == "Tree_1")
+                {
+                    obj._texture = _game.textures.Tile_1;
+                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
+
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 1f);
+
+                }
+                #endregion
+            }
             _game.msgchecker.Resume();
                // TODO: Add your drawing code here
 

@@ -41,18 +41,17 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs" />
-    <Compile Include="Component.cs" />
+    <Compile Include="Controls\Camera.cs" />
+    <Compile Include="Objects\Component.cs" />
     <Compile Include="Controls\Background.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\PlayerInLobby.cs" />
-    <Compile Include="Core.cs" />
+    <Compile Include="Objects\Core.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Network.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="star.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\LobbyState.cs" />
     <Compile Include="States\MenuState.cs" />

@@ -49,8 +49,8 @@ namespace zZooMmRoyal.Controls
             if (_isHovering)
             { colour = Color.Green; }
 
-            spriteBatch.Draw(_texture, Rectangle, colour);
-
+            
+            spriteBatch.Draw(_texture, new Vector2(Rectangle.X,Rectangle.Y), null, colour, 0f, new Vector2(0,0), 1f, SpriteEffects.None, 1f);
             if (!string.IsNullOrEmpty(Text))
             {
                 var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);

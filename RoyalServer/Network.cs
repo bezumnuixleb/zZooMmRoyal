@@ -61,7 +61,7 @@ namespace RoyalServer
                                 {
                                     if (mas[0] == "give_id")
                                     {
-                                        PlayerS tmpP = new PlayerS(game.Player_Texture_Std,game._world)
+                                        PlayerS tmpP = new PlayerS(game.textures.Player_1,game._world)
                                         {
                                             _id = game.idcounter.ToString(),
                                             _name = mas[1],
@@ -86,8 +86,8 @@ namespace RoyalServer
                                                 if (mas[0] == player._id)
                                                 {
                                                   
-                                                    NetOutgoingMessage inform = server.CreateMessage( );
-                                                    server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
+                                                    //NetOutgoingMessage inform = server.CreateMessage( );
+                                                    //server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
 
                                                     //send info about other players
                                                     String Tmps = CreateMsgAboutLobby(game.playerlist);
@@ -122,17 +122,11 @@ namespace RoyalServer
 
                                                 //send info about other players
                                                 String Tmps = "" + player._id + " Objects";
-                                                String Sosat = CreateMsgAboutPlayers(Tmps, game.playerlist, player._id, game.zombielist);
+                                                String Sosat = CreateMsgAboutPlayers(Tmps, game, player._id);
                                                 NetOutgoingMessage statistic = server.CreateMessage(Sosat);
                                                 server.SendMessage(statistic, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
 
-                                                //send info about Zombies
-
-                                                //String TmpZombie = "" + player._id + " All_Zombie";
-
-                                                //NetOutgoingMessage infoZombie = server.CreateMessage(CreateMsgAboutZombies(TmpZombie, zombielist, player._id));
-                                                //server.SendMessage(infoZombie, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
-
+                                                
                                                 continue;
 
                                             }
@@ -200,33 +194,59 @@ namespace RoyalServer
 
             return tmps;
         }
-        public String CreateMsgAboutPlayers(String msg, List<PlayerS> playerlist,String currentid, List<ZombieS> zombieslist)
+        public String CreateMsgAboutPlayers(String msg,Game1 game,String currentid)
         {
             int objcounter = 0;
             String toadding = "";
-            foreach (var obj in playerlist)
+            foreach (var obj in game.playerlist)
             {
                 if ( (string)obj.body.UserData == "Player" && obj._id != currentid)
                 {
                     objcounter++;
                     String s = "Other_Player ";
 
-                    
-
-                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " "+obj.body.Rotation+" ";
+                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " "+obj.body.Rotation+" "+ obj._Size.X+" ";
                     toadding += s;
                 }
                 //other obj
             }
-            foreach (var obj in zombieslist)
+            foreach (var obj in game.zombielist)
             {
                 if ((string)obj.body.UserData == "Zombie")
                 {
                     objcounter++;
                     String s = "Mob_Zombie ";
-                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
+                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation +" "+obj._Size.X+ " ";
                     toadding += s;
                 }
+            }
+            foreach (var item in game.solidlist)
+            {
+                #region GameObject
+                if ((string)item.body.UserData == "Box_2")
+                {
+                    
+                    objcounter++;
+                    String s = "Box_2 ";
+                    s += ConvertUnits.ToDisplayUnits(item.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(item.body.Position.Y) + " " + item.body.Rotation + " "+item._Size.X+ " ";
+                    toadding += s;
+                }
+                #endregion
+
+            }
+            foreach (var item in game.tiles)
+            {
+                #region Tiles
+                if ((string)item.Type == "Grass")
+                {
+
+                    objcounter++;
+                    String s = "Tile_Grass ";
+                    s += item.Position.X + " " + item.Position.Y + " " + "null" + " " + "null" + " ";
+                    toadding += s;
+                }
+                #endregion
+
             }
             if (objcounter != 0)
             {

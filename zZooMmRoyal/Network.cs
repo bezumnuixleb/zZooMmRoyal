@@ -95,16 +95,23 @@ namespace zZooMmRoyal
                                         if (mas[2] != "error")
                                         {
                                             game.objlist.Clear();
+                                           
                                             int objcountr = Convert.ToInt32(mas[2]);
                                             int currentSdvig = 3;
                                             for (int i = 0; i < objcountr; i++)
                                             {
+                                                #region UnderPlayerObjects
+
+                                                #endregion
+
+                                                #region PlayerLevelObjects
                                                 if (mas[currentSdvig] == "Mob_Zombie")
                                                 {
                                                     Object tmpobj = new Object();
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
                                                     game.objlist.Add(tmpobj);
                                                 }
                                                 if (mas[currentSdvig] == "Other_Player")
@@ -113,37 +120,35 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
                                                     game.objlist.Add(tmpobj);
                                                 }
-
-                                                currentSdvig += 4;
-                                            }
-                                        }
-                                    }
-                                    //msg dlya Zobie
-                                    if (mas[1] == "All_Zombie")
-                                    {
-                                        if (mas[2] != "error")
-                                        {
-                                            game.objlist.Clear();
-                                            int MOBcountr = Convert.ToInt32(mas[2]);
-                                            int currentSdvig = 3;
-                                            for (int i = 0; i < MOBcountr; i++)
-                                            {
-                                                if (mas[currentSdvig] == "Mob_Zombie")
+                                                if (mas[currentSdvig] == "Box_2")
                                                 {
                                                     Object tmpobj = new Object();
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
+                                                    game.objlist.Add(tmpobj);
+
+                                                }
+                                                if (mas[currentSdvig] == "Tile_Grass")
+                                                {
+                                                    Object tmpobj = new Object();
+                                                    tmpobj._Type = mas[currentSdvig];
+                                                    tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                    tmpobj._rotation = 0f;
+                                                    tmpobj._size = 1f;
                                                     game.objlist.Add(tmpobj);
                                                 }
-                                                currentSdvig += 4;
+                                                #endregion
+
+                                                currentSdvig += 5;
                                             }
                                         }
                                     }
-
-                                    //drugaya super slojnaya func
+                                 
 
                                 }
                                 #endregion
@@ -160,101 +165,7 @@ namespace zZooMmRoyal
 
             }
         }
-        public void GetInfo(Player player, Queue<String> msglist, List<Object> objlist)
-        {
-
-            while (true)
-            {
-
-                NetIncomingMessage info = client.ReadMessage();
-                if ((info != null))
-                {
-                    switch (info.MessageType)
-                    {
-                        case NetIncomingMessageType.Data:
-                            {
-                                String data = info.ReadString();
-                                String[] mas = data.Split();
-                                if (mas[0] == "id")
-                                {
-                                    player._id = mas[1]; continue;
-                                }
-                                if (mas[1] == "Player")
-                                    player.Changes(data);
-
-                                //if(mas[0]== "Zombie")
-                                //    zombie.Changes(data);
-
-                                //msg dlya objects
-                                if (mas[1] == "Objects")
-                                {
-                                    if (mas[2] != "error")
-                                    {
-                                        objlist.Clear();
-                                        int objcountr = Convert.ToInt32(mas[2]);
-                                        int currentSdvig = 3;
-                                        for (int i = 0; i < objcountr; i++)
-                                        {
-                                            if (mas[currentSdvig] == "Mob_Zombie")
-                                            {
-                                                Object tmpobj = new Object();
-                                                tmpobj._Type = mas[currentSdvig];
-                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
-                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                objlist.Add(tmpobj);
-                                            }
-                                            if (mas[currentSdvig] == "Other_Player")
-                                            {
-                                                Object tmpobj = new Object();
-                                                tmpobj._Type = mas[currentSdvig];
-                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
-                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                objlist.Add(tmpobj);
-                                            }
-
-                                            currentSdvig += 4;
-                                        }
-                                    }
-                                }
-
-
-                                //msg dlya Zobie
-                                if (mas[1] == "All_Zombie")
-                                {
-                                    if (mas[2] != "error")
-                                    {
-                                        objlist.Clear();
-                                        int MOBcountr = Convert.ToInt32(mas[2]);
-                                        int currentSdvig = 3;
-                                        for (int i = 0; i < MOBcountr; i++)
-                                        {
-                                            if (mas[currentSdvig] == "Mob_Zombie")
-                                            {
-                                                Object tmpobj = new Object();
-                                                tmpobj._Type = mas[currentSdvig];
-                                                tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
-                                                tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                objlist.Add(tmpobj);
-                                            }
-                                            currentSdvig += 4;
-                                        }
-                                    }
-                                }
-
-                                //drugaya super slojnaya func
-                            }
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-                else //recconect
-                    continue;
-
-                //  System.Threading.Thread.Sleep(10);
-            }
-        }
+        
         public void Disconnect()
         {
             client.Disconnect("Bye");

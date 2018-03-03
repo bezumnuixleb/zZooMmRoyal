@@ -24,10 +24,18 @@ namespace zZooMmRoyal
         public SpriteBatch spriteBatch;
         public Queue<String> msglist = new Queue<String>();
         public Player player;
-        public Texture2D text;
-        public Texture2D texture_Zombie;
+        public struct TextureList
+        {
+            public Texture2D Player_1;
+            public Texture2D Zombie_1;
+            public Texture2D Box_2;
+            public Texture2D Tile_1;
+        }
+        public TextureList textures;
         public Client client =new Client();
         public List<Object> objlist;
+        public List<Object> backobjlist;
+        public List<Object> frontobjlist;
         public Thread msgchecker;
         public List<String> LobbyPlayersList;
         public ClientState currentState = ClientState.mainmenu;
@@ -46,6 +54,7 @@ namespace zZooMmRoyal
 
         public Game1()
         {
+            textures = new TextureList();
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 720;
@@ -88,11 +97,12 @@ namespace zZooMmRoyal
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            text = Content.Load<Texture2D>("New_1");
-            texture_Zombie = Content.Load<Texture2D>("Zombie");
-            player._texture = text;
+            textures.Player_1= Content.Load<Texture2D>("New_1");
+            textures.Zombie_1= Content.Load<Texture2D>("Zombie");
+            textures.Box_2= Content.Load<Texture2D>("graphics/level/enviroment/boxes/box_2");
+            textures.Tile_1 = Content.Load<Texture2D>("graphics/level/ground/grass_tile");
+            player._texture = textures.Player_1;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
-
             LobbyPlayersList = new List<String>();
             //Menu
             _currentState = new MenuState(this, graphics.GraphicsDevice, Content);
