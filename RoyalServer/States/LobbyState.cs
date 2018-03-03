@@ -20,13 +20,13 @@ namespace zZooMmRoyal.States
         {
             // mob generation
             game.defColor = Color.CornflowerBlue;
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 ZombieS tmpZ = new ZombieS(_game.textures.Zombie_1, _game._world);
                 tmpZ.RandPos();
                 _game.zombielist.Add(tmpZ);
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 ObjectS tmpO = new ObjectS(_game.textures.Box_2);
                 Thread.Sleep(20);
@@ -44,9 +44,9 @@ namespace zZooMmRoyal.States
             //map generation
 
             game.tiles = new List<Tile>();
-            for (int i = -1; i < 1; i++)
+            for (int i = -10; i < 10; i++)
             {
-                for (int j = -1; j < 1; j++)
+                for (int j = -10; j < 10; j++)
                 {
                     Tile tmp = new Tile(new Vector2(game.textures.Tile_1.Width * i, game.textures.Tile_1.Height * j),"Grass");
                     game.tiles.Add(tmp);

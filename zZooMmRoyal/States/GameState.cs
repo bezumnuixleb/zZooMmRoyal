@@ -54,7 +54,7 @@ namespace zZooMmRoyal.States
                               _game.camera._Ttansfor);
 
             
-            _game.msgchecker.Suspend();
+           // _game.msgchecker.Suspend();
             foreach (var copmonent in _components)
                 copmonent.Draw(gameTime, spriteBatch);
 
@@ -62,6 +62,7 @@ namespace zZooMmRoyal.States
             foreach (var obj in _game.objlist)
             {
                 #region Objects
+
                 if (obj._Type == "Other_Player")
                 {
                     obj._texture = _game.textures.Player_1;
@@ -103,7 +104,7 @@ namespace zZooMmRoyal.States
                 }
                 #endregion
             }
-            _game.msgchecker.Resume();
+           // _game.msgchecker.Resume();
                // TODO: Add your drawing code here
 
             spriteBatch.End();
