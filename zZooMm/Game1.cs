@@ -168,15 +168,18 @@ namespace zZooMm001
             #endregion
 
             #region Zombe(old collisions)
-            for (int i = 0; i < 0; i++)
+            for (int i = 0; i < 10; i++)
 
             {
                 Random rnd = new Random();
                 Thread.Sleep(20);
                 Vector2 _position = new Vector2();
-                _position.X = rnd.Next(-1540*10, 1540 * 10);
-                _position.Y = rnd.Next(-1190*10, 1190 * 10);
-               
+                //_position.X = rnd.Next(-1540*10, 1540 * 10);
+                //_position.Y = rnd.Next(-1190*10, 1190 * 10);
+
+                _position.X = rnd.Next(-100, 200);
+                _position.Y = rnd.Next(-100, 200);
+
                 zombie = new ObjectNew(textureZ, _position, _world);
                 zombie.body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(zombie.texture.Width / 2 * zombie._Size.X), 0.2f, ConvertUnits.ToSimUnits(_position), BodyType.Dynamic);
                 zombie.body.Restitution = 0.3f;
@@ -269,7 +272,7 @@ namespace zZooMm001
             spriteBatch.Draw(test.Box_6txt, ConvertUnits.ToDisplayUnits(test.Box_6.Position), null, Color.White, test.Box_6.Rotation, new Vector2(91,67),5f, SpriteEffects.None, 0f);
             foreach (var zombie in zombelest)
             {
-                spriteBatch.Draw(zombie.texture, ConvertUnits.ToDisplayUnits(zombie.body.Position), null, Color.White, zombie.rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
+                spriteBatch.Draw(zombie.texture, ConvertUnits.ToDisplayUnits(zombie.body.Position), null, Color.White, zombie.body.Rotation, zombie.origin, zombie._Size, SpriteEffects.None, 0f);
 
             }
             spriteBatch.End();

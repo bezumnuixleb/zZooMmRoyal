@@ -21,8 +21,7 @@ namespace zZooMm001
         public Vector2 _SizeZ;
         public Input input;
 
-        public float current_rotation = 0;
-        public float rotation = 0;
+        public float rotation;
         public float speed_rotation;
         public Vector2 centreScreen;
 
@@ -70,9 +69,9 @@ namespace zZooMm001
             direction.Normalize();
             rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X) + MathHelper.ToRadians(90);// + 90 градусов из за картинки
 
-            if (Math.Abs(rotation - current_rotation) > MathHelper.ToRadians(180))
+            if (Math.Abs(rotation - body.Rotation) > MathHelper.ToRadians(180))
             {
-                if (rotation > current_rotation)
+                if (rotation > body.Rotation)
                 {
                     rotation -= MathHelper.ToRadians(360);
                 }
@@ -82,31 +81,61 @@ namespace zZooMm001
                 }
             }
 
-            if (current_rotation > MathHelper.ToRadians(360)) current_rotation -= MathHelper.ToRadians(360);
-            if (current_rotation < MathHelper.ToRadians(0)) current_rotation += MathHelper.ToRadians(360);
+            if (body.Rotation > MathHelper.ToRadians(360)) body.Rotation -= MathHelper.ToRadians(360);
+            if (body.Rotation < MathHelper.ToRadians(0)) body.Rotation += MathHelper.ToRadians(360);
 
-            if (rotation > current_rotation )
+            if (rotation > body.Rotation)
             {
-                current_rotation += MathHelper.ToRadians(speed_rotation);
+                body.Rotation += MathHelper.ToRadians(speed_rotation);
             }
-            if (rotation < current_rotation )
+            if (rotation < body.Rotation)
             {
-                current_rotation -= MathHelper.ToRadians(speed_rotation);
+                body.Rotation -= MathHelper.ToRadians(speed_rotation);
             }
+
+            
         }
 
         public void MoveToPlayer(ObjectNew player)
         {
-            Vector2 mousePosition = ConvertUnits.ToDisplayUnits(player.body.Position);
+            Vector2 Player_Position = ConvertUnits.ToDisplayUnits(player.body.Position);
 
-            Vector2 direction = mousePosition - ConvertUnits.ToDisplayUnits(body.Position);
+            Vector2 direction = Player_Position - ConvertUnits.ToDisplayUnits(body.Position);
+
             direction.Normalize();
 
             rotation = (float)Math.Atan2((double)direction.Y, (double)direction.X);
+
+            if (Math.Abs(rotation - body.Rotation) > MathHelper.ToRadians(180))
+            {
+                if (rotation > body.Rotation)
+                {
+                    rotation -= MathHelper.ToRadians(360);
+                }
+                else
+                {
+                    rotation += MathHelper.ToRadians(360);
+                }
+            }
+
+            if (body.Rotation > MathHelper.ToRadians(360)) body.Rotation -= MathHelper.ToRadians(360);
+            if (body.Rotation < MathHelper.ToRadians(0)) body.Rotation += MathHelper.ToRadians(360);
+
+            if (rotation > body.Rotation)
+            {
+                body.Rotation += MathHelper.ToRadians(speed_rotation);
+            }
+            if (rotation < body.Rotation)
+            {
+                body.Rotation -= MathHelper.ToRadians(speed_rotation);
+            }
+
+            
+
             // движение к персонажу 
             body.ResetDynamics();
 
-            body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - rotation) * 0.2f,(float)Math.Cos(MathHelper.ToRadians(90) - rotation) * 0.2f));
+            body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - body.Rotation) * 0.2f,(float)Math.Cos(MathHelper.ToRadians(90) - body.Rotation) * 0.2f));
 
 
         }
