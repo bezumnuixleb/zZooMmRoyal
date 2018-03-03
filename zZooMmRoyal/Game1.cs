@@ -17,6 +17,9 @@ namespace zZooMmRoyal
     /// </summary>
     public class Game1 : Game
     {
+        public Camera camera;
+
+
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public Queue<String> msglist = new Queue<String>();
@@ -45,8 +48,8 @@ namespace zZooMmRoyal
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = 1024;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 768;   // set this value to the desired height of your window
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
             graphics.ApplyChanges();
             player = new Player()
             {
@@ -54,7 +57,6 @@ namespace zZooMmRoyal
                 _Type = "Player",
                 _input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
                 _name = "Dodek",
-                _Size = new Vector2(0.3f, 0.3f),
                 _id="null"
             };
             objlist = new List<Object>();
@@ -81,10 +83,12 @@ namespace zZooMmRoyal
         /// </summary>
         protected override void LoadContent()
         {
+            camera = new Camera(GraphicsDevice.Viewport);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            text = Content.Load<Texture2D>("Player/New_1");
+            text = Content.Load<Texture2D>("New_1");
             texture_Zombie = Content.Load<Texture2D>("Zombie");
             player._texture = text;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
@@ -129,6 +133,9 @@ namespace zZooMmRoyal
             _currentState.Update(gameTime);
             _currentState.PostUpdate(gameTime);
             
+
+
+
             base.Update(gameTime);
         }
 

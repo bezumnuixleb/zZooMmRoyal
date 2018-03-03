@@ -48,7 +48,10 @@ namespace zZooMmRoyal.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                             null,
+                              null, null, null, null,
+                              _game.camera._Ttansfor);
 
             foreach (var copmonent in _components)
                 copmonent.Draw(gameTime, spriteBatch);
@@ -62,7 +65,7 @@ namespace zZooMmRoyal.States
                     obj._texture = _game.text;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.3f, 0.3f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
 
                 }
                 if (obj._Type == "Mob_Zombie")
@@ -70,7 +73,7 @@ namespace zZooMmRoyal.States
                     obj._texture = _game.texture_Zombie;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
 
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.3f, 0.3f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0f);
 
                 }
             }
@@ -92,7 +95,9 @@ namespace zZooMmRoyal.States
                 copmonent.Update(gameTime);
 
             _game.client.SendMessage(_game.player._id + " " + "giveINFO");
-            _game.player.Update(gameTime, _game.objlist, Keyboard.GetState(), _game.msglist);
+            _game.player.Update(gameTime, _game.objlist, Keyboard.GetState(), _game.msglist, _game.camera);
+
+            _game.camera.Update(_game.player._position);
 
             foreach (var msg in _game.msglist)
             {

@@ -45,7 +45,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="MOB_S\ZombieS.cs" />
     <Compile Include="Network.cs" />
-    <Compile Include="MOB_S\PhysZ.cs" />
     <Compile Include="MOB_S\PlayerS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

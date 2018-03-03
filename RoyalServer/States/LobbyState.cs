@@ -16,24 +16,10 @@ namespace zZooMmRoyal.States
         public LobbyState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content) : base(game, graphicsDevice, content)
         {
             // mob generation
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 200; i++)
             {
-                ZombieS tmpZ = new ZombieS(_game.Zombie_Texture_Std)
-                {
-                    //_speed = 0f,
-                    distance_Min = 300,
-                    _Size = new Vector2(0.3f, 0.3f),
-                    _Type = "Zombie",
-                    Origin = new Vector2(_game.Player_Texture_Std.Width / 2, _game.Player_Texture_Std.Height / 2),
-                    _rotation = 0,
-                    phys = new PhysicZ.PhysZ(1f)
-                    {
-
-                    },
-                    number = i,
-                    // _position = new Vector2(900, 500),
-                };
-                tmpZ.RandPos(_game.playerlist);
+                ZombieS tmpZ = new ZombieS(_game.Zombie_Texture_Std, _game._world);
+                tmpZ.RandPos();
                 _game.zombielist.Add(tmpZ);
             }
             //map generation

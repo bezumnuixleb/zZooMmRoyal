@@ -8,6 +8,7 @@ using System.Threading;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using RoyalServer.MOB_S;
+using VelcroPhysics.Utilities;
 
 namespace RoyalServer
 {
@@ -60,19 +61,11 @@ namespace RoyalServer
                                 {
                                     if (mas[0] == "give_id")
                                     {
-                                        PlayerS tmpP = new PlayerS(game.Player_Texture_Std)
+                                        PlayerS tmpP = new PlayerS(game.Player_Texture_Std,game._world)
                                         {
                                             _id = game.idcounter.ToString(),
                                             _name = mas[1],
-                                            _Size = new Vector2(0.5f, 0.5f),
-                                            _Type = "Player",
-                                            buttons = new PlayerS.PressedButtons(),
-                                            Origin = new Vector2(game.Player_Texture_Std.Width / 2, game.Player_Texture_Std.Height / 2),
-                                            _rotation = 0,
-                                            phys=new PhysicZ.PhysZ(1f)
-                                            {
-
-                                            }
+                                            centreScreen = new Vector2(1280 / 2, 720 / 2),
 
                                         };
                                         tmpP.RandPos();
@@ -118,10 +111,13 @@ namespace RoyalServer
                                             {
                                                 //menyat bool znachenia knopok
                                                 //"_id _Player _PosX _PosY Rotation"
+
+                                                Vector2 Player_Position = ConvertUnits.ToDisplayUnits(player.body.Position);
+
                                                 NetOutgoingMessage inform = server.CreateMessage(player._id + " Player " +
-                                                Convert.ToString(player._position.X) +
-                                                " " + Convert.ToString(player._position.Y + " " +
-                                                Convert.ToString(player._rotation)));
+                                                Convert.ToString(Player_Position.X) +
+                                                " " + Convert.ToString(Player_Position.Y + " " +
+                                                Convert.ToString(player.body.Rotation)));
                                                 server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
 
                                                 //send info about other players
@@ -175,8 +171,8 @@ namespace RoyalServer
                                         }
                                         if (tmpPlayer != null && tmpPlayer._isAlive)
                                         {
-                                            tmpPlayer._mPosition.X = Convert.ToSingle(mas[2]);
-                                            tmpPlayer._mPosition.Y = Convert.ToSingle(mas[3]);
+                                            Vector2 mRotation = new Vector2(Convert.ToSingle(mas[2]), Convert.ToSingle(mas[3]));
+                                            tmpPlayer.currentMouseState = mRotation;
                                         }
                                     }
                                 }
@@ -192,117 +188,7 @@ namespace RoyalServer
             }
 
         }
-        public void ReadMessages(List<ZombieS> zombielist, List<PlayerS> playerlist,Texture2D Player_Texture_Std,int idcounter)
-        {
-            NetIncomingMessage message;
-            var stop = false;
-
-            while (!stop)
-            {
-                while ((message = server.ReadMessage()) != null)
-                {
-                    switch (message.MessageType)
-                    {
-                        case NetIncomingMessageType.Data:
-                            {
-                                var data = message.ReadString();
-                                String[] mas= data.Split();
-
-                                if (mas[0] == "give_id")
-                                {
-                                    PlayerS tmpP = new PlayerS(Player_Texture_Std)
-                                    {
-                                        _id = idcounter.ToString(),
-                                        _name = mas[1],
-                                        _Size = new Vector2(0.5f, 0.5f),
-                                        _Type = "Player",
-                                        buttons = new PlayerS.PressedButtons(),
-                                        Origin = new Vector2(Player_Texture_Std.Width / 2, Player_Texture_Std.Height / 2),
-                                        _rotation = 0,
-
-                                    };
-                                    tmpP.RandPos();
-                                    playerlist.Add(tmpP);
-                                    idcounter++;
-                                    NetOutgoingMessage inform = server.CreateMessage("id "+ Convert.ToString(idcounter - 1));
-                                    server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
-                                    continue;
-                                }
-                                if(mas[1]== "giveINFO")
-                                foreach (var player in playerlist)
-                                {
-                                    if (mas[0] == player._id)
-                                    {
-                                        //menyat bool znachenia knopok
-                                                //"_id _Player _PosX _PosY Rotation"
-                                            NetOutgoingMessage inform = server.CreateMessage(player._id+" Player "+
-                                            Convert.ToString(player._position.X) +
-                                            " " + Convert.ToString(player._position.Y+" "+
-                                            Convert.ToString(player._rotation) ));
-                                            server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
-
-                                            //send info about other players
-                                            String Tmps = "" + player._id + " Objects";
-                                            String Sosat = CreateMsgAboutPlayers(Tmps, playerlist, player._id, zombielist);
-                                            NetOutgoingMessage statistic = server.CreateMessage(Sosat);
-                                            server.SendMessage(statistic, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
-
-                                            //send info about Zombies
-
-                                            //String TmpZombie = "" + player._id + " All_Zombie";
-
-                                            //NetOutgoingMessage infoZombie = server.CreateMessage(CreateMsgAboutZombies(TmpZombie, zombielist, player._id));
-                                            //server.SendMessage(infoZombie, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
-
-                                            continue;
-
-                                        }
-                                }
-                                if(mas[1]== "ButtonChange")
-                                {
-                                    PlayerS tmpPlayer = null;
-                                    foreach (var player in playerlist)
-                                    {
-                                        if (mas[0] == player._id) tmpPlayer = player;
-                                    }
-                                    if (tmpPlayer != null) {
-                                        switch (mas[2])
-                                        {
-                                            case "Left_D": { tmpPlayer.buttons.left = true; } break;
-                                            case "Left_U": { tmpPlayer.buttons.left = false; } break;
-                                            case "Right_D": { tmpPlayer.buttons.right = true; } break;
-                                            case "Right_U": { tmpPlayer.buttons.right = false; } break;
-                                            case "Up_D": { tmpPlayer.buttons.up = true; } break;
-                                            case "Up_U": { tmpPlayer.buttons.up = false; } break;
-                                            case "Down_D": { tmpPlayer.buttons.down = true; } break;
-                                            case "Down_U": { tmpPlayer.buttons.down = false; } break;
-
-                                            default:
-                                                break;
-                                        }
-                                    }
-                                }
-                                if (mas[1] == "MousePos")
-                                {
-                                    PlayerS tmpPlayer=null;
-                                    foreach (var player in playerlist)
-                                    {
-                                        if (mas[0] == player._id) tmpPlayer = player;
-                                    }
-                                    if (tmpPlayer != null) { 
-                                    tmpPlayer._mPosition.X = Convert.ToSingle(mas[2]);
-                                        tmpPlayer._mPosition.Y= Convert.ToSingle(mas[3]);
-                                    }
-                                }
-                            }
-                            break;
-                        default:
-                                 break;
-                    }
-                    server.Recycle(message);
-                }
-            }
-        }
+      
         public String CreateMsgAboutLobby(List<PlayerS> playerlist)
         {
             String tmps = "";
@@ -320,22 +206,25 @@ namespace RoyalServer
             String toadding = "";
             foreach (var obj in playerlist)
             {
-                if (obj._Type == "Player" && obj._id != currentid)
+                if ( (string)obj.body.UserData == "Player" && obj._id != currentid)
                 {
                     objcounter++;
                     String s = "Other_Player ";
-                    s +=obj._position.X + " " + obj._position.Y+" "+obj._rotation+" ";
+
+                    
+
+                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " "+obj.body.Rotation+" ";
                     toadding += s;
                 }
                 //other obj
             }
             foreach (var obj in zombieslist)
             {
-                if (obj._Type == "Zombie")
+                if ((string)obj.body.UserData == "Zombie")
                 {
                     objcounter++;
                     String s = "Mob_Zombie ";
-                    s += obj._position.X + " " + obj._position.Y + " " + obj._rotation + " ";
+                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
                     toadding += s;
                 }
             }

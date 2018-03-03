@@ -28,11 +28,11 @@ namespace zZooMmRoyal
         {
 
         }
-        public void Update(GameTime gameTime, List<Object> gameobj, KeyboardState playerkeys, Queue<String> msglist)
+        public void Update(GameTime gameTime, List<Object> gameobj, KeyboardState playerkeys, Queue<String> msglist, Camera camera)
         {
             _prev = _current;
             _current = playerkeys;
-            Move(_current, msglist);
+            Move(_current, msglist,camera);
             MouseMove(msglist);
         }
         public void MouseMove(Queue<String> msglist)
@@ -61,11 +61,24 @@ namespace zZooMmRoyal
             //other changes
         }
 
-        public void Move(KeyboardState keybord, Queue<String> msglist)
+        public void Move(KeyboardState keybord, Queue<String> msglist, Camera camera)
         {
             if (_input == null)
                 return;
             String tmp = "";
+
+            MouseState currentMouseState = Mouse.GetState();
+            if (currentMouseState.ScrollWheelValue > camera.Scroll)
+            {
+                camera._zoom += 0.03f;
+                camera.Scroll = currentMouseState.ScrollWheelValue;
+            }
+            if (currentMouseState.ScrollWheelValue < camera.Scroll)
+            {
+                camera._zoom -= 0.03f;
+                camera.Scroll = currentMouseState.ScrollWheelValue;
+            }
+
             if (keybord.IsKeyDown(_input.Left)&&_prev.IsKeyUp(_input.Left))
             {
                 tmp = _id+ " ButtonChange " + "Left_D";

@@ -7,20 +7,36 @@ using System.Threading;
 using System;
 using RoyalServer.MOB_S;
 using zZooMmRoyal.States;
+using VelcroPhysics.Dynamics;
+using VelcroPhysics.Shared;
+using VelcroPhysics.Utilities;
+using VelcroPhysics.Collision.Shapes;
+using VelcroPhysics.Factories;
 
 namespace RoyalServer
 {
     public class Game1 : Game
     {
+
+        GraphicsDeviceManager graphics;
+
+        SpriteBatch spriteBatch;
+        //Camera camera;
+        //private List<Plain> _Plain;
+        //private List<MobZombie> _Zombie;
+        private Vector2 _screenCenter;//
+        public readonly World _world;//
+
+        public List<PlayerS> playerlist = new List<PlayerS>();
+        public List<ZombieS> zombielist = new List<ZombieS>();
+
+
+
+
         public ServerState currentState;
         public ServerState previousState;
 
         public int counterToEndGame = 0;
-
-        public GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
-        public List<PlayerS> playerlist=new List<PlayerS>();
-        public List<ZombieS> zombielist = new List<ZombieS>();
 
         public List<Object> objlist = new List<Object>();
         public List<String> mslist = new List<String>();
@@ -41,6 +57,10 @@ namespace RoyalServer
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
+            _world = new World(new Vector2(0, 0));//
+
             Content.RootDirectory = "Content";
             currentState = new ServerState();
             currentState = ServerState.waitingPlayers;
@@ -67,7 +87,13 @@ namespace RoyalServer
             msgchecker = new Thread(() => server.ReadMessagesNew(this));
              msgchecker.Start();
 
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.IsMouseVisible = true;
+            _screenCenter = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2f, graphics.GraphicsDevice.Viewport.Height / 2f);
+            ConvertUnits.SetDisplayUnitToSimUnitRatio(200f);
 
+            //var groundtexture = Content.Load<Texture2D>("grass_tile");
+   
         }
 
         protected override void UnloadContent()
@@ -96,13 +122,6 @@ namespace RoyalServer
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            foreach (var player in playerlist)
-            {
-                foreach (var Zombie in zombielist)
-                {
-                    if (player.IsColliding(Zombie)) GraphicsDevice.Clear(Color.Red);
-                }
-            }
             //  spriteBatch.Begin();
             //  spriteBatch.Draw(Player_Texture_Std, playerlist.ToArray()[0]._position, null, Color.White, 0f, new Vector2(0, 0), 1, SpriteEffects.None, 0f);
             //   spriteBatch.End();

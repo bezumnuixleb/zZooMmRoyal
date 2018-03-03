@@ -19,8 +19,8 @@ namespace zZooMm001
         
         SpriteBatch spriteBatch;
         Camera camera;
-        private List<Plain> _Plain;
-        private List<MobZombie> _Zombie;
+        //private List<Plain> _Plain;
+        //private List<MobZombie> _Zombie;
         public float cooldown = 0f;
         private Matrix _view;//
         private Vector2 _cameraPosition;//
@@ -129,7 +129,6 @@ namespace zZooMm001
                 _Size = new Vector2(0.5f, 0.5f),
                 input = new Input { Left = Keys.A, Right = Keys.D, Up = Keys.W, Down = Keys.S },
                 centreScreen = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2),
-
             };
             Vertices bodyvert = new Vertices(8);
             bodyvert.Add(ConvertUnits.ToSimUnits(new Vector2(-90, 51)));
@@ -169,7 +168,6 @@ namespace zZooMm001
 
             #region Zombe(old collisions)
             for (int i = 0; i < 10; i++)
-
             {
                 Random rnd = new Random();
                 Thread.Sleep(20);
@@ -236,7 +234,7 @@ namespace zZooMm001
         private void Body_OnCollision(Fixture fixtureA, Fixture fixtureB, VelcroPhysics.Collision.ContactSystem.Contact contact)
         {
            
-            if ((string)fixtureB.Body.UserData== (string)"Zombie"&& cooldown>20)
+            if ((string)fixtureB.Body.UserData == (string)"Zombie"&& cooldown > 20)
             {
                 cooldown = 0;
                 Vector2 mousePosition = ConvertUnits.ToDisplayUnits(fixtureB.Body.Position);

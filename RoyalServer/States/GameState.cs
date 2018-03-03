@@ -39,49 +39,34 @@ namespace zZooMmRoyal.States
         {
             //current update game
             bool someoneisAlive = false;
-            foreach (var player in _game.playerlist)
-            {
-                player.Update(gameTime, _game.objlist);
-                if (player._isAlive) someoneisAlive = true;
-            }
-            foreach (var Zombie in _game.zombielist)
-            {
-                Zombie.Update(gameTime, _game.objlist, _game.playerlist);
-            }
-            foreach (var ZombieMain in _game.zombielist)
-            {
-                foreach (var Zombie in _game.zombielist)
-                {
-                    if (ZombieMain.number != Zombie.number && Zombie.IsColliding(ZombieMain))
-                    {
 
-                        Zombie._position -= new Vector2(10, 10);
-                        ZombieMain._position += new Vector2(10, 10);
 
-                    }
-                }
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                _game.Exit();
+
+            foreach (var item in _game.playerlist)
+            {
+                item.Update(gameTime, _game.objlist);
+                if (item._isAlive) someoneisAlive = true;
+            }
+
+            foreach (var item in _game.zombielist)
+            {
+                item.Update(gameTime, _game.objlist,_game.playerlist);
             }
 
             foreach (var player in _game.playerlist)
             {
-                foreach (var Zombie in _game.zombielist)
-                {
-                    if (player.IsColliding(Zombie))
-                    {
-                        player.phys.Impulse += Zombie.getVectorSight() * 15;
-                        Zombie.phys.Impulse -= Zombie.getVectorSight() * 5;
-
-                    }
-                }
-           
+                //player.body.OnCollision += Body_OnCollision;
             }
 
+            _game._world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 
-       
             // main update
 
             // send positions
             //_game.ChangesState(new MenuState(_game, _graphicsDevice, _content));
+
 
             if (!someoneisAlive)
             {
