@@ -48,18 +48,33 @@ namespace zZooMmRoyal.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            if (_game.objlist.Count == 0) return;
+                if (_game.flag) return;
+            
+
             spriteBatch.Begin(SpriteSortMode.FrontToBack,
                              null,
                               null, null, null, null,
                               _game.camera._Ttansfor);
 
             
-           // _game.msgchecker.Suspend();
+           
             foreach (var copmonent in _components)
                 copmonent.Draw(gameTime, spriteBatch);
 
             _game.player.Draw(spriteBatch);
-            foreach (var obj in _game.objlist)
+            _game.msgchecker.Suspend();
+            if (_game.flag)
+            {
+                _game.msgchecker.Resume();
+                // TODO: Add your drawing code here
+
+                spriteBatch.End();
+                return;
+            }
+            if (_game.objlist.Count != 0) {
+                _game.GraphicsDevice.Clear(Color.Red);
+                foreach (var obj in _game.objlist)
             {
                 #region Objects
 
@@ -104,7 +119,8 @@ namespace zZooMmRoyal.States
                 }
                 #endregion
             }
-           // _game.msgchecker.Resume();
+            }
+            _game.msgchecker.Resume();
                // TODO: Add your drawing code here
 
             spriteBatch.End();

@@ -31,7 +31,7 @@ namespace RoyalServer.MOB_S
 
         }
 
-        public void Update(GameTime gameTime, List<ObjectS> gameobj, List<PlayerS> playerlist)
+        public void Update(GameTime gameTime, Game1 game, List<PlayerS> playerlist)
         {
             foreach (var player in playerlist)
             {

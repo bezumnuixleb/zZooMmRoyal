@@ -36,7 +36,7 @@ namespace RoyalServer
 
 
 
-        public virtual void Update(GameTime gameTime, List<ObjectS> gameobj)
+        public virtual void Update(GameTime gameTime, Game1 game)
         {
 
         }

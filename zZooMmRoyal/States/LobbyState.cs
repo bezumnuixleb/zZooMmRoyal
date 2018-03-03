@@ -69,6 +69,7 @@ namespace zZooMmRoyal.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            _game.GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
             foreach (var copmonent in _components)

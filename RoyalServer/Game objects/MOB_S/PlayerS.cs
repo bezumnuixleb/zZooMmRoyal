@@ -21,6 +21,7 @@ namespace RoyalServer
         public String _id;
         public bool _isAlive = true;
         public Vector2 currentMouseState;
+        public List<ObjectS> nearobj;
         public class PressedButtons
         {
             public bool up,down,left,right;
@@ -35,7 +36,7 @@ namespace RoyalServer
         public PlayerS(Texture2D txt, World _world):base(txt)
         {
             buttons = new PressedButtons();
-
+            nearobj = new List<ObjectS>();
             texture = txt;
             _Size = new Vector2(0.5f, 0.5f);
             //_SizeZ = new Vector2(0.5f, 0.5f);
@@ -46,12 +47,52 @@ namespace RoyalServer
 
             RandPos();
         }
-        public override void Update(GameTime gameTime, List<ObjectS> gameobj)
+        public override void Update(GameTime gameTime,Game1 game)
         {
             //mouse pos getting
             Move();
             MoveButtons();
             
+
+
+
+
+        }
+        public void TakeNear(Game1 game)
+        {
+            Vector2 Player_Position = ConvertUnits.ToDisplayUnits(body.Position);
+            nearobj.Clear();
+            foreach (var p in game.playerlist)
+            {
+                if (p == this) continue;
+                Vector2 p_Position = ConvertUnits.ToDisplayUnits(body.Position);
+                double formDistance = (double)((Player_Position.X - p_Position.X) * (Player_Position.X - p_Position.X) + (Player_Position.Y - p_Position.Y) * (Player_Position.Y - p_Position.Y));
+                float distance = (float)Math.Sqrt((double)formDistance);
+                if (distance < 500)
+                {
+                    nearobj.Add(p);
+                }
+            }
+            foreach (var zomb in game.zombielist)
+            {
+                Vector2 Mob_Position = ConvertUnits.ToDisplayUnits(body.Position);
+                double formDistance = (double)((Player_Position.X - Mob_Position.X) * (Player_Position.X - Mob_Position.X) + (Player_Position.Y - Mob_Position.Y) * (Player_Position.Y - Mob_Position.Y));
+                float distance = (float)Math.Sqrt((double)formDistance);
+                if (distance < 500)
+                {
+                    nearobj.Add(zomb);
+                }
+            }
+            foreach (var block in game.solidlist)
+            {
+                Vector2 block_Position = ConvertUnits.ToDisplayUnits(body.Position);
+                double formDistance = (double)((Player_Position.X - block_Position.X) * (Player_Position.X - block_Position.X) + (Player_Position.Y - block_Position.Y) * (Player_Position.Y - block_Position.Y));
+                float distance = (float)Math.Sqrt((double)formDistance);
+                if (distance < 500)
+                {
+                    nearobj.Add(block);
+                }
+            }
         }
         public void MoveButtons()
         {
@@ -102,7 +143,6 @@ namespace RoyalServer
 
             if (body.Rotation > MathHelper.ToRadians(360)) body.Rotation -= MathHelper.ToRadians(360);
             if (body.Rotation < MathHelper.ToRadians(0)) body.Rotation += MathHelper.ToRadians(360);
-
             if (rotation > body.Rotation)
             {
                 body.Rotation += MathHelper.ToRadians(speed_rotation);

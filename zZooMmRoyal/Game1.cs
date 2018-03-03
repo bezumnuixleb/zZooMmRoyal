@@ -19,7 +19,7 @@ namespace zZooMmRoyal
     {
         public Camera camera;
 
-
+        public bool flag=false;
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
         public Queue<String> msglist = new Queue<String>();
@@ -34,6 +34,7 @@ namespace zZooMmRoyal
         public TextureList textures;
         public Client client =new Client();
         public List<Object> objlist;
+        public List<Object> objlist2;
         public List<Object> backobjlist;
         public List<Object> frontobjlist;
         public Thread msgchecker;
@@ -69,6 +70,7 @@ namespace zZooMmRoyal
                 _id="null"
             };
             objlist = new List<Object>();
+            objlist2 = new List<Object>();
             //msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));
             msgchecker = new Thread(() => client.GetInfoNew(this));
 
@@ -155,7 +157,7 @@ namespace zZooMmRoyal
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //MENU
             _currentState.Draw(gameTime, spriteBatch);

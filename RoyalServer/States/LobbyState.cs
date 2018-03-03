@@ -20,20 +20,21 @@ namespace zZooMmRoyal.States
         {
             // mob generation
             game.defColor = Color.CornflowerBlue;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 600; i++)
             {
                 ZombieS tmpZ = new ZombieS(_game.textures.Zombie_1, _game._world);
                 tmpZ.RandPos();
                 _game.zombielist.Add(tmpZ);
             }
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 600; i++)
             {
                 ObjectS tmpO = new ObjectS(_game.textures.Box_2);
                 Thread.Sleep(20);
                 Random random = new Random();
                 int x=random.Next(-1540 * 10, 1540 * 10);
                 int y=random.Next(-1540 * 10, 1540 * 10);
-                int size = random.Next(5,80);
+                //int size = random.Next(5,80);
+                int size = 50;
                 int rotation = random.Next(0,359);
                 tmpO.body = BodyConstructor.CreateBody(TipTela.Box_2, _game._world, null, size * 0.1f,(float)rotation);
                 tmpO._Size = new Vector2(size * 0.1f, size * 0.1f);
@@ -44,9 +45,9 @@ namespace zZooMmRoyal.States
             //map generation
 
             game.tiles = new List<Tile>();
-            for (int i = -10; i < 10; i++)
+            for (int i = -1; i < 1; i++)
             {
-                for (int j = -10; j < 10; j++)
+                for (int j = -1; j < 1; j++)
                 {
                     Tile tmp = new Tile(new Vector2(game.textures.Tile_1.Width * i, game.textures.Tile_1.Height * j),"Grass");
                     game.tiles.Add(tmp);

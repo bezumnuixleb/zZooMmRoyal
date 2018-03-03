@@ -46,13 +46,13 @@ namespace zZooMmRoyal.States
 
             foreach (var item in _game.playerlist)
             {
-                item.Update(gameTime, _game.objlist);
+                item.Update(gameTime, _game);
                 if (item._isAlive) someoneisAlive = true;
             }
 
             foreach (var item in _game.zombielist)
             {
-                item.Update(gameTime, _game.objlist,_game.playerlist);
+                item.Update(gameTime, _game,_game.playerlist);
             }
 
             foreach (var player in _game.playerlist)

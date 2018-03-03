@@ -94,6 +94,7 @@ namespace zZooMmRoyal
                                     {
                                         if (mas[2] != "error")
                                         {
+                                            game.flag = true;
                                             game.objlist.Clear();
                                            
                                             int objcountr = Convert.ToInt32(mas[2]);
@@ -111,8 +112,9 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
+                                                    tmpobj._size = 0.5f;
                                                     game.objlist.Add(tmpobj);
+                                                    currentSdvig += 4;
                                                 }
                                                 if (mas[currentSdvig] == "Other_Player")
                                                 {
@@ -120,8 +122,9 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
+                                                  
                                                     game.objlist.Add(tmpobj);
+                                                    currentSdvig += 4;
                                                 }
                                                 if (mas[currentSdvig] == "Box_2")
                                                 {
@@ -129,9 +132,10 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                    tmpobj._size = Convert.ToSingle(mas[currentSdvig + 4]);
+                                                    tmpobj._size =5f;
                                                     game.objlist.Add(tmpobj);
 
+                                                    currentSdvig += 4;
                                                 }
                                                 if (mas[currentSdvig] == "Tile_Grass")
                                                 {
@@ -140,12 +144,13 @@ namespace zZooMmRoyal
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = 0f;
                                                     tmpobj._size = 1f;
-                                                    game.objlist.Add(tmpobj);
+                                                    //game.objlist.Add(tmpobj);
                                                 }
                                                 #endregion
 
-                                                currentSdvig += 5;
+                                           
                                             }
+                                            game.flag = false;
                                         }
                                     }
                                  

@@ -121,6 +121,10 @@ namespace RoyalServer
                                                 server.SendMessage(inform, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
 
                                                 //send info about other players
+                                                foreach (var pl in game.playerlist)
+                                                {
+                                                    pl.TakeNear(game);
+                                                }
                                                 String Tmps = "" + player._id + " Objects";
                                                 String Sosat = CreateMsgAboutPlayers(Tmps, game, player._id);
                                                 NetOutgoingMessage statistic = server.CreateMessage(Sosat);
@@ -198,56 +202,63 @@ namespace RoyalServer
         {
             int objcounter = 0;
             String toadding = "";
-            foreach (var obj in game.playerlist)
+            foreach (var Item in game.playerlist)
             {
-                if ( (string)obj.body.UserData == "Player" && obj._id != currentid)
+                if(Item._id == currentid)
                 {
-                    objcounter++;
-                    String s = "Other_Player ";
+                    foreach (var obj in Item.nearobj)
+                    {
+                        if ((string)obj.body.UserData == "Player")
+                        {
+                            objcounter++;
+                            String s = "Other_Player ";
 
-                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " "+obj.body.Rotation+" "+ obj._Size.X+" ";
-                    toadding += s;
-                }
-                //other obj
-            }
-            foreach (var obj in game.zombielist)
-            {
-                if ((string)obj.body.UserData == "Zombie")
-                {
-                    objcounter++;
-                    String s = "Mob_Zombie ";
-                    s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation +" "+obj._Size.X+ " ";
-                    toadding += s;
-                }
-            }
-            foreach (var item in game.solidlist)
-            {
-                #region GameObject
-                if ((string)item.body.UserData == "Box_2")
-                {
-                    
-                    objcounter++;
-                    String s = "Box_2 ";
-                    s += ConvertUnits.ToDisplayUnits(item.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(item.body.Position.Y) + " " + item.body.Rotation + " "+item._Size.X+ " ";
-                    toadding += s;
-                }
-                #endregion
+                            s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation +  " ";
+                            toadding += s;
+                        }
+                        //other obj
+                    }
+                    foreach (var obj in Item.nearobj)
+                    {
+                        if ((string)obj.body.UserData == "Zombie")
+                        {
+                            objcounter++;
+                            String s = "Mob_Zombie ";
+                            s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
+                            toadding += s;
+                        }
+                    }
+                    foreach (var item in Item.nearobj)
+                    {
+                        #region GameObject
+                        if ((string)item.body.UserData == "Box_2")
+                        {
 
-            }
-            foreach (var item in game.tiles)
-            {
-                #region Tiles
-                if ((string)item.Type == "Grass")
-                {
+                            objcounter++;
+                            String s = "Box_2 ";
+                            s += ConvertUnits.ToDisplayUnits(item.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(item.body.Position.Y) + " " + item.body.Rotation + " ";
+                            toadding += s;
+                        }
+                        #endregion
 
-                    objcounter++;
-                    String s = "Tile_Grass ";
-                    s += item.Position.X + " " + item.Position.Y + " " + "null" + " " + "null" + " ";
-                    toadding += s;
+                    }
+                    //foreach (var item in game.tiles)
+                    //{
+                    //    #region Tiles
+                    //    if ((string)item.Type == "Grass")
+                    //    {
+
+                    //        objcounter++;
+                    //        String s = "Tile_Grass ";
+                    //        s += item.Position.X + " " + item.Position.Y + " " + "null" + " " + "null" + " ";
+                    //        toadding += s;
+                    //    }
+                    //    #endregion
+
+                    //}
                 }
-                #endregion
-
             }
+           
             if (objcounter != 0)
             {
                 msg += " "+objcounter.ToString()+" " + toadding;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RoyalServer.Game_objects
 {
-    public class Tile
+    public class Tile 
     {
         public Vector2 Position;
         public String Type;
