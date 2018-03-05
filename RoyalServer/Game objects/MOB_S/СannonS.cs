@@ -11,32 +11,38 @@ using VelcroPhysics.Utilities;
 
 namespace RoyalServer.Game_objects.MOB_S
 {
-    class СannonS: ObjectS
+    public class СannonS: ObjectS
     {
 
 
         public int number;
         public float distance_Min;
 
-        public float LifeSpan = 0f;
+        public Texture2D txt;
+
+        public float pre_shot_timer;
+        Bullet bullet;
 
 
-        public СannonS(Texture2D txt, World _world, TipTela _type = TipTela.Mob_1) : base(txt)
+        public СannonS(Texture2D txt,Texture2D txtBullet, World _world, TipTela _type = TipTela.Mob_1) : base(txt)
         {
             distance_Min = 500;
             texture = txt;
-
+            pre_shot_timer = 0;
             _Size = new Vector2(0.8f, 0.8f);
             speed_rotation = 4f;
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
-            //посчитать размеры офк норм для зомби
             body = BodyConstructor.CreateBody(_type, _world, this, 0.5f);
+
+            bullet = new Bullet(txtBullet, _world);
         }
 
-        public void Update(GameTime gameTime, Game1 game, List<PlayerS> playerlist)
+        public void Update(GameTime gameTime, Game1 game, List<PlayerS> playerlist, List<Bullet> bulletlist)
         {
+            pre_shot_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             PlayerS tmp = playerlist[0];
-            float MIN_distance = 2000;
+            float MIN_distance = 500;
 
             // находим наиближайшего персонажа 
             foreach (var player in playerlist)
@@ -52,13 +58,24 @@ namespace RoyalServer.Game_objects.MOB_S
                 }
             }
 
-            if (MIN_distance != 2000)
+            if (MIN_distance != 500)
             {
+                //обнуление таймера
+                pre_shot_timer = 0;
                 //поворот к игроку
                 rotation_Plyer(tmp);
-                // движение к персонажу 
-                body.ResetDynamics();
-                body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - body.Rotation) * 0.2f, (float)Math.Cos(MathHelper.ToRadians(90) - body.Rotation) * 0.2f));
+                // выстрел
+                if (pre_shot_timer >= 2)
+                {
+                    var _bullet = bullet.Clone() as Bullet;
+                    _bullet.rotation = body.Rotation;
+                    _bullet.body.Rotation = body.Rotation;
+                    bulletlist.Add(_bullet);
+                }
+            }
+            else
+            {
+                pre_shot_timer = 0;
             }
         }
 

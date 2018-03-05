@@ -57,7 +57,7 @@ namespace zZooMmRoyal.States
 
             foreach (var item in _game.bulletlist.ToArray())
             {
-                item.Update(gameTime);
+                item.Update(gameTime, _game);
             }
             
             for (int i = 0; i < _game.bulletlist.Count; i++)

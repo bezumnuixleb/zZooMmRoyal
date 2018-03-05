@@ -13,6 +13,7 @@ using VelcroPhysics.Utilities;
 using VelcroPhysics.Collision.Shapes;
 using VelcroPhysics.Factories;
 using RoyalServer.Game_objects;
+using RoyalServer.Game_objects.MOB_S;
 
 namespace RoyalServer
 {
@@ -32,12 +33,17 @@ namespace RoyalServer
         public List<PlayerS> playerlist = new List<PlayerS>();
         public List<ZombieS> zombielist = new List<ZombieS>();
         public List<ObjectS> solidlist = new List<ObjectS>();
+        public List<Bullet> bulletlist = new List<Bullet>();
+        public List<СannonS> Cannonlist = new List<СannonS>();
+
         public struct TextureList
         {
             public Texture2D Player_1;
             public Texture2D Zombie_1;
             public Texture2D Box_2;
             public Texture2D Tile_1;
+            public Texture2D Сannon_1;
+            public Texture2D Bullet_Сannon;
         }
         public TextureList textures;
         
@@ -92,7 +98,10 @@ namespace RoyalServer
             textures.Player_1= Content.Load<Texture2D>("Player/New_1");
             textures.Zombie_1 = Content.Load<Texture2D>("Zombie");
             textures.Box_2 = Content.Load<Texture2D>("graphics/level/enviroment/boxes/box_2");
-            textures.Tile_1= Content.Load<Texture2D>("graphics/level/ground/grass_tile");
+
+            textures.Bullet_Сannon = Content.Load<Texture2D>("Cannon");
+            textures.Сannon_1 = Content.Load<Texture2D>("Bullet/bullet");
+
             #endregion
             //msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));
             msgchecker = new Thread(() => server.ReadMessagesNew(this));

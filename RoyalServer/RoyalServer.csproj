@@ -42,9 +42,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game objects\BodyConstructor.cs" />
+    <Compile Include="Game objects\MOB_S\Bullet.cs" />
     <Compile Include="Game objects\MOB_S\СannonS.cs" />
     <Compile Include="Game objects\Object.cs" />
-    <Compile Include="Game objects\Tiles\Tile.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Game objects\MOB_S\ZombieS.cs" />
     <Compile Include="Network.cs" />
@@ -80,7 +80,9 @@
       <Name>VelcroPhysics.MonoGame</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Game objects\Tiles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,6 +23,8 @@ namespace RoyalServer
         public float rotation;
         public float speed_rotation;
 
+        public bool isRemoved = false;
+
 
         public ObjectS(Texture2D txt,float Size=1f,String _type="null")
         {
