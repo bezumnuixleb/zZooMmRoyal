@@ -95,6 +95,16 @@ namespace zZooMmRoyal.States
                 _game.idchecker++; }
             _game.client.SendMessage(_game.player._id + " " + "giveINFO");
 
+            _game.backobjlist = new List<Object>();
+            for (int i = -1; i < 1; i++)
+            {
+                for (int j = -1; j < 1; j++)
+                {
+                    Tile tmp = new Tile(new Vector2(game.textures.Tile_1.Width * i, game.textures.Tile_1.Height * j), "Grass");
+                    game.tiles.Add(tmp);
+                }
+            }
+
             int Counter = 0;
             _game.msgchecker.Suspend();
             _componentsPl.Clear();

@@ -21,7 +21,7 @@ namespace zZooMmRoyal
             //ip host 192.168.88.242
             //ip host 31.132.141.5
 
-            string ip = "31.132.141.5";
+            string ip = "localhost";
             int port = 14242;
             client.Connect(ip, port);
         }

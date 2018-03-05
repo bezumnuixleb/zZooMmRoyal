@@ -69,6 +69,7 @@ namespace zZooMmRoyal
                 _name = "Dodek",
                 _id="null"
             };
+            backobjlist = new List<Object>();
             objlist = new List<Object>();
             objlist2 = new List<Object>();
             //msgchecker = new Thread(() => client.GetInfo(player, msglist,objlist));

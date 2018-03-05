@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="Game objects\BodyConstructor.cs" />
     <Compile Include="Game objects\Object.cs" />
-    <Compile Include="Game objects\Tiles\Tile.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Game objects\MOB_S\ZombieS.cs" />
     <Compile Include="Network.cs" />

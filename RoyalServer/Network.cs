@@ -242,20 +242,7 @@ namespace RoyalServer
                         #endregion
 
                     }
-                    //foreach (var item in game.tiles)
-                    //{
-                    //    #region Tiles
-                    //    if ((string)item.Type == "Grass")
-                    //    {
 
-                    //        objcounter++;
-                    //        String s = "Tile_Grass ";
-                    //        s += item.Position.X + " " + item.Position.Y + " " + "null" + " " + "null" + " ";
-                    //        toadding += s;
-                    //    }
-                    //    #endregion
-
-                    //}
                 }
             }
            
