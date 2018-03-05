@@ -32,7 +32,6 @@ namespace RoyalServer
         public List<PlayerS> playerlist = new List<PlayerS>();
         public List<ZombieS> zombielist = new List<ZombieS>();
         public List<ObjectS> solidlist = new List<ObjectS>();
-        public List<Tile> tiles = new List<Tile>();
         public struct TextureList
         {
             public Texture2D Player_1;

@@ -57,8 +57,12 @@ namespace zZooMmRoyal.States
                               null, null, null, null,
                               _game.camera._Ttansfor);
 
-            
-           
+
+            foreach (var item in _game.backobjlist)
+            {
+               spriteBatch.Draw(item._texture, item._position, null, Color.White, 0f, new Vector2(item._texture.Width/2, item._texture.Height / 2), 1f, SpriteEffects.None, 0f);
+               
+            }
             foreach (var copmonent in _components)
                 copmonent.Draw(gameTime, spriteBatch);
 
@@ -102,13 +106,7 @@ namespace zZooMmRoyal.States
                     spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0.5f);
 
                 }
-                if (obj._Type == "Tile_Grass")
-                {
-                    obj._texture = _game.textures.Tile_1;
-                    obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
-
-                    spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0f);
-                }
+                
                 if (obj._Type == "Tree_1")
                 {
                     obj._texture = _game.textures.Tile_1;
