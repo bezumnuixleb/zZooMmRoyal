@@ -21,7 +21,7 @@ namespace zZooMmRoyal
             //ip host 192.168.88.242
             //ip host 31.132.141.5
 
-            string ip = "localhost";
+            string ip = "31.132.141.5";
             int port = 14242;
             client.Connect(ip, port);
         }
@@ -123,7 +123,7 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                  
+                                                    tmpobj._size = 0.5f;
                                                     game.objlist.Add(tmpobj);
                                                     currentSdvig += 4;
                                                 }

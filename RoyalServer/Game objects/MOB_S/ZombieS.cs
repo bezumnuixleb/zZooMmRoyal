@@ -30,7 +30,6 @@ namespace RoyalServer.MOB_S
             origin = new Vector2(texture.Width / 2, texture.Height / 2);
             //посчитать размеры офк норм для зомби
             body = BodyConstructor.CreateBody(_type, _world, this, 0.5f);
-
         }
 
         public void Update(GameTime gameTime, Game1 game, List<PlayerS> playerlist)
@@ -97,6 +96,11 @@ namespace RoyalServer.MOB_S
                 // движение к персонажу 
                 body.ResetDynamics();
                 body.ApplyLinearImpulse(new Vector2((float)Math.Sin(MathHelper.ToRadians(90) - body.Rotation) * 0.2f, (float)Math.Cos(MathHelper.ToRadians(90) - body.Rotation) * 0.2f));
+            }
+            else
+            {
+                player_ID = "";
+                return;
             }
         }
         public void rotation_Plyer(PlayerS player)
