@@ -45,7 +45,7 @@ namespace zZooMmRoyal.States
 
             for (int i = 0; i < 100; i++)
             {
-                СannonS tmpC = new СannonS(_game.textures.Cannon_1,_game.textures.Bullet_1, _game._world);
+                СannonS tmpC = new СannonS(_game.textures.Сannon_1,_game.textures.Bullet_Сannon, _game._world);
                 tmpC.RandPos();
                 _game.Cannonlist.Add(tmpC);
             }
