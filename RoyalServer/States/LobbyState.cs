@@ -20,13 +20,13 @@ namespace zZooMmRoyal.States
         {
             // mob generation
             game.defColor = Color.CornflowerBlue;
-            for (int i = 0; i < 600; i++)
+            for (int i = 0; i < 100; i++)
             {
                 ZombieS tmpZ = new ZombieS(_game.textures.Zombie_1, _game._world);
                 tmpZ.RandPos();
                 _game.zombielist.Add(tmpZ);
             }
-            for (int i = 0; i < 600; i++)
+            for (int i = 0; i < 200; i++)
             {
                 ObjectS tmpO = new ObjectS(_game.textures.Box_2);
                 Thread.Sleep(20);
