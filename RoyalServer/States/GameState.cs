@@ -55,10 +55,30 @@ namespace zZooMmRoyal.States
                 item.Update(gameTime, _game,_game.playerlist);
             }
 
+            foreach (var item in _game.bulletlist.ToArray())
+            {
+                item.Update(gameTime);
+            }
+            
+            for (int i = 0; i < _game.bulletlist.Count; i++)
+            {
+                if (_game.bulletlist[i].isRemoved)
+                {
+                    _game.bulletlist.RemoveAt(i);
+                    i--;
+                }
+            }
+
+            foreach (var item in _game.Cannonlist)
+            {
+                item.Update(gameTime,_game, _game.playerlist, _game.bulletlist);
+            }
+
             foreach (var player in _game.playerlist)
             {
                 //player.body.OnCollision += Body_OnCollision;
             }
+
 
             _game._world.Step((float)gameTime.ElapsedGameTime.TotalMilliseconds * 0.001f);
 

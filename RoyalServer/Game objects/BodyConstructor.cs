@@ -19,7 +19,8 @@ namespace RoyalServer.Game_objects
         Box_1,Box_2,Box_3,Box_4, Box_5, Box_6,
         Bush_1,Bush_2,Bush_3,
         Tree_1,Tree_2,Tree_3,
-        Brevna
+        Brevna,
+        Bullet_1
 
     }
     public static class BodyConstructor
@@ -130,6 +131,14 @@ namespace RoyalServer.Game_objects
                     break;
                 case TipTela.Brevna:
                     body = null;
+                    break;
+                case TipTela.Bullet_1:
+                    {
+                        body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(obj.texture.Width / 2 * _Size), 0.2f, ConvertUnits.ToSimUnits(new Vector2(0, 0)), BodyType.Dynamic);
+                        body.Restitution = 0f;
+                        body.Friction = 0.3f;
+                        body.UserData = "Bullet_1";
+                    }
                     break;
                 default:
                     {

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using RoyalServer;
 using RoyalServer.Game_objects;
+using RoyalServer.Game_objects.MOB_S;
 using RoyalServer.MOB_S;
 using VelcroPhysics.Utilities;
 
@@ -41,10 +42,18 @@ namespace zZooMmRoyal.States
                 tmpO.body.Position = new Vector2(ConvertUnits.ToSimUnits(x), ConvertUnits.ToSimUnits(y));
                 _game.solidlist.Add(tmpO);
             }
-            
+
+            for (int i = 0; i < 100; i++)
+            {
+                СannonS tmpC = new СannonS(_game.textures.Cannon_1,_game.textures.Bullet_1, _game._world);
+                tmpC.RandPos();
+                _game.Cannonlist.Add(tmpC);
+            }
+
+
             //map generation
 
-           
+
             game.defColor = Color.Red;
         }
 
