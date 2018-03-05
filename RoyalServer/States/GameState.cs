@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RoyalServer;
+using VelcroPhysics.Utilities;
 
 namespace zZooMmRoyal.States
 {
@@ -76,7 +77,7 @@ namespace zZooMmRoyal.States
 
             foreach (var player in _game.playerlist)
             {
-                //player.body.OnCollision += Body_OnCollision;
+                player.body.OnCollision += Body_OnCollision;
             }
 
 
@@ -106,6 +107,17 @@ namespace zZooMmRoyal.States
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 _game.Exit();
+
+        }
+
+        private void Body_OnCollision(VelcroPhysics.Dynamics.Fixture fixtureA, VelcroPhysics.Dynamics.Fixture fixtureB, VelcroPhysics.Collision.ContactSystem.Contact contact)
+        {
+            if ((string)fixtureB.Body.UserData == (string)"Bullet_1")
+            {
+                
+                fixtureA.Body.ApplyLinearImpulse(0.0025f*fixtureB.Body.GetLinearVelocityFromLocalPoint(fixtureA.Body.Position+ ConvertUnits.ToSimUnits(new Vector2(256,256))));
+                fixtureB.Body.Position = new Vector2(1000f, 1000f);
+            }
 
         }
     }

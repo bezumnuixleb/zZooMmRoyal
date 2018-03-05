@@ -21,7 +21,7 @@ namespace zZooMmRoyal.States
         {
             // mob generation
             game.defColor = Color.CornflowerBlue;
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 ZombieS tmpZ = new ZombieS(_game.textures.Zombie_1, _game._world);
                 tmpZ.RandPos();
@@ -32,10 +32,10 @@ namespace zZooMmRoyal.States
                 ObjectS tmpO = new ObjectS(_game.textures.Box_2);
                 Thread.Sleep(20);
                 Random random = new Random();
-                int x=random.Next(-1540 * 10, 1540 * 10);
-                int y=random.Next(-1540 * 10, 1540 * 10);
+                int x=random.Next(-7400, 7400);
+                int y=random.Next(-1100 * 6, 1100 * 6);
                 //int size = random.Next(5,80);
-                int size = 50;
+                int size = 30;
                 int rotation = random.Next(0,359);
                 tmpO.body = BodyConstructor.CreateBody(TipTela.Box_2, _game._world, null, size * 0.1f,(float)rotation);
                 tmpO._Size = new Vector2(size * 0.1f, size * 0.1f);
@@ -43,9 +43,11 @@ namespace zZooMmRoyal.States
                 _game.solidlist.Add(tmpO);
             }
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 20; i++)
             {
                 СannonS tmpC = new СannonS(_game.textures.Сannon_1,_game.textures.Bullet_Сannon, _game._world);
+                tmpC.body = BodyConstructor.CreateBody(TipTela.Mob_2, _game._world, tmpC, 0.2f);
+                //tmpC.body.Position = new Vector2(15f, 5f*i);
                 tmpC.RandPos();
                 _game.Cannonlist.Add(tmpC);
             }

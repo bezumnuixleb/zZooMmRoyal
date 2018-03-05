@@ -99,8 +99,8 @@ namespace RoyalServer
             textures.Zombie_1 = Content.Load<Texture2D>("Zombie");
             textures.Box_2 = Content.Load<Texture2D>("graphics/level/enviroment/boxes/box_2");
 
-            textures.Bullet_Сannon = Content.Load<Texture2D>("Cannon");
-            textures.Сannon_1 = Content.Load<Texture2D>("Bullet/bullet");
+            textures.Bullet_Сannon = Content.Load<Texture2D>("Bullet/bullet");
+            textures.Сannon_1 = Content.Load<Texture2D>("Cannon");
 
             #endregion
             //msgchecker = new Thread(() => server.ReadMessages(zombielist,playerlist, Player_Texture_Std, idcounter));

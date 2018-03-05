@@ -26,7 +26,7 @@ namespace RoyalServer.Game_objects.MOB_S
 
         public СannonS(Texture2D txt,Texture2D txtBullet, World _world, TipTela _type = TipTela.Mob_1) : base(txt)
         {
-            distance_Min = 500;
+            distance_Min = 1500;
             texture = txt;
             pre_shot_timer = 0;
             _Size = new Vector2(0.8f, 0.8f);
@@ -40,14 +40,14 @@ namespace RoyalServer.Game_objects.MOB_S
         public void Update(GameTime gameTime, Game1 game, List<PlayerS> playerlist, List<Bullet> bulletlist)
         {
             pre_shot_timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            body.ResetDynamics();
             PlayerS tmp = playerlist[0];
-            float MIN_distance = 500;
+            float MIN_distance = 1500;
 
             // находим наиближайшего персонажа 
             foreach (var player in playerlist)
             {
-                Vector2 Player_Position = ConvertUnits.ToDisplayUnits(player.body.Position);
+                Vector2 Player_Position = ConvertUnits.ToDisplayUnits(player.body.Position+ ConvertUnits.ToSimUnits(new Vector2(player.texture.Width/2,player.texture.Height/2)));
                 Vector2 Mob_Position = ConvertUnits.ToDisplayUnits(body.Position);
                 double formDistance = (double)((Player_Position.X - Mob_Position.X) * (Player_Position.X - Mob_Position.X) + (Player_Position.Y - Mob_Position.Y) * (Player_Position.Y - Mob_Position.Y));
                 float distance = (float)Math.Sqrt((double)formDistance);
@@ -58,23 +58,26 @@ namespace RoyalServer.Game_objects.MOB_S
                 }
             }
 
-            if (MIN_distance != 500)
+            if (MIN_distance != 1500)
             {
-                //обнуление таймера
-                pre_shot_timer = 0;
+                
+               
                 //поворот к игроку
                 rotation_Plyer(tmp);
                 // выстрел
-                if (pre_shot_timer >= 2)
+                if (pre_shot_timer >= 0.3f)
                 {
                     var _bullet = bullet.Clone() as Bullet;
                     _bullet.rotation = body.Rotation;
                     _bullet.body.Rotation = body.Rotation;
+                    _bullet.body.Position = body.Position;
                     bulletlist.Add(_bullet);
+                    pre_shot_timer = 0;
                 }
             }
             else
             {
+                //обнуление таймера
                 pre_shot_timer = 0;
             }
         }
@@ -123,7 +126,7 @@ namespace RoyalServer.Game_objects.MOB_S
         {
             Random rnd = new Random();
             Thread.Sleep(20);
-            Vector2 Pos = ConvertUnits.ToSimUnits(new Vector2(rnd.Next(-1540 * 10, 1540 * 10), rnd.Next(-1190 * 10, 1190 * 10)));
+            Vector2 Pos = ConvertUnits.ToSimUnits(new Vector2(rnd.Next(-7400, 7400 ), rnd.Next(-1100 * 6, 1100 * 6)));
             body.Position = Pos;
         }
     }

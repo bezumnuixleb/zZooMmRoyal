@@ -146,7 +146,7 @@ namespace RoyalServer.MOB_S
         {
             Random rnd = new Random();
             Thread.Sleep(20);
-            Vector2 Pos = ConvertUnits.ToSimUnits(new Vector2(rnd.Next(-1540 * 10, 1540 * 10), rnd.Next(-1190 * 10, 1190 * 10)));
+            Vector2 Pos = ConvertUnits.ToSimUnits(new Vector2(rnd.Next(-7400, 7400), rnd.Next(-1100 * 6, 1100 * 6)));
             body.Position = Pos;
         }
     }

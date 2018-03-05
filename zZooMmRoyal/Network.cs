@@ -117,6 +117,26 @@ namespace zZooMmRoyal
                                                     game.objlist.Add(tmpobj);
                                                     currentSdvig += 4;
                                                 }
+                                                if (mas[currentSdvig] == "Bullet_1")
+                                                {
+                                                    Object tmpobj = new Object();
+                                                    tmpobj._Type = mas[currentSdvig];
+                                                    tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                    tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                    tmpobj._size = 0.02f;
+                                                    game.objlist.Add(tmpobj);
+                                                    currentSdvig += 4;
+                                                }
+                                                if (mas[currentSdvig] == "Mob_Cannon")
+                                                {
+                                                    Object tmpobj = new Object();
+                                                    tmpobj._Type = mas[currentSdvig];
+                                                    tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
+                                                    tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
+                                                    tmpobj._size = 0.2f;
+                                                    game.objlist.Add(tmpobj);
+                                                    currentSdvig += 4;
+                                                }
                                                 if (mas[currentSdvig] == "Other_Player")
                                                 {
                                                     Object tmpobj = new Object();
@@ -133,7 +153,7 @@ namespace zZooMmRoyal
                                                     tmpobj._Type = mas[currentSdvig];
                                                     tmpobj._position = new Vector2(Convert.ToSingle(mas[currentSdvig + 1]), Convert.ToSingle(mas[currentSdvig + 2]));
                                                     tmpobj._rotation = Convert.ToSingle(mas[currentSdvig + 3]);
-                                                    tmpobj._size =5f;
+                                                    tmpobj._size =3f;
                                                     game.objlist.Add(tmpobj);
 
                                                     currentSdvig += 4;

@@ -206,7 +206,7 @@ namespace RoyalServer
             {
                 if(Item._id == currentid)
                 {
-                    foreach (var obj in Item.nearobj)
+                    foreach (var obj in Item.nearobj.ToArray())
                     {
                         if ((string)obj.body.UserData == "Player")
                         {
@@ -224,6 +224,26 @@ namespace RoyalServer
                         {
                             objcounter++;
                             String s = "Mob_Zombie ";
+                            s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
+                            toadding += s;
+                        }
+                    }
+                    foreach (var obj in Item.nearobj)
+                    {
+                        if ((string)obj.body.UserData == "Bullet_1")
+                        {
+                            objcounter++;
+                            String s = "Bullet_1 ";
+                            s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
+                            toadding += s;
+                        }
+                    }
+                    foreach (var obj in Item.nearobj)
+                    {
+                        if ((string)obj.body.UserData == "Cannon")
+                        {
+                            objcounter++;
+                            String s = "Mob_Cannon ";
                             s += ConvertUnits.ToDisplayUnits(obj.body.Position.X) + " " + ConvertUnits.ToDisplayUnits(obj.body.Position.Y) + " " + obj.body.Rotation + " ";
                             toadding += s;
                         }

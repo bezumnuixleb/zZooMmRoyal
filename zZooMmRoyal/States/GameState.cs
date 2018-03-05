@@ -98,7 +98,23 @@ namespace zZooMmRoyal.States
                     spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin,obj._size, SpriteEffects.None, 0.5f);
 
                 }
-                if (obj._Type == "Box_2")
+                    if (obj._Type == "Mob_Cannon")
+                    {
+                        obj._texture = _game.textures.Сannon_1;
+                        obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
+
+                        spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation, obj.Origin, obj._size, SpriteEffects.None, 0.5f);
+
+                    }
+                    if (obj._Type == "Bullet_1")
+                    {
+                        obj._texture = _game.textures.Bullet_Сannon;
+                        obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);
+
+                        spriteBatch.Draw(obj._texture, obj._position, null, Color.White, obj._rotation+ MathHelper.ToRadians(180), obj.Origin, obj._size, SpriteEffects.None, 0.5f);
+
+                    }
+                    if (obj._Type == "Box_2")
                 {
                     obj._texture = _game.textures.Box_2;
                     obj.Origin = new Vector2(obj._texture.Width / 2, obj._texture.Height / 2);

@@ -69,7 +69,12 @@ namespace RoyalServer.Game_objects
                     }
                     break;
                 case TipTela.Mob_2:
-                    body = null;
+                    {
+                        body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(obj.texture.Width / 2 * _Size), 0.01f, ConvertUnits.ToSimUnits(new Vector2(0, 0)), BodyType.Static);
+                        body.Restitution = 0.3f;
+                        body.Friction = 0.5f;
+                        body.UserData = "Cannon";
+                    }
                     break;
                 case TipTela.Mob_3:
                     body = null;
@@ -134,9 +139,9 @@ namespace RoyalServer.Game_objects
                     break;
                 case TipTela.Bullet_1:
                     {
-                        body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(obj.texture.Width / 2 * _Size), 0.2f, ConvertUnits.ToSimUnits(new Vector2(0, 0)), BodyType.Dynamic);
+                        body = BodyFactory.CreateCircle(_world, ConvertUnits.ToSimUnits(obj.texture.Width / 2 * _Size),1000f, ConvertUnits.ToSimUnits(new Vector2(0, 0)), BodyType.Dynamic);
                         body.Restitution = 0f;
-                        body.Friction = 0.3f;
+                        body.Friction = 0f;
                         body.UserData = "Bullet_1";
                     }
                     break;

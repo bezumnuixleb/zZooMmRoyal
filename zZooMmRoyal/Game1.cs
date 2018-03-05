@@ -30,6 +30,8 @@ namespace zZooMmRoyal
             public Texture2D Zombie_1;
             public Texture2D Box_2;
             public Texture2D Tile_1;
+            public Texture2D Сannon_1;
+            public Texture2D Bullet_Сannon;
         }
         public TextureList textures;
         public Client client =new Client();
@@ -104,6 +106,9 @@ namespace zZooMmRoyal
             textures.Zombie_1= Content.Load<Texture2D>("Zombie");
             textures.Box_2= Content.Load<Texture2D>("graphics/level/enviroment/boxes/box_2");
             textures.Tile_1 = Content.Load<Texture2D>("graphics/level/ground/grass_tile");
+            textures.Bullet_Сannon = Content.Load<Texture2D>("Bullet/bullet");
+            textures.Сannon_1 = Content.Load<Texture2D>("Cannon");
+
             player._texture = textures.Player_1;
             player.Origin = new Vector2(player._texture.Width / 2, player._texture.Height / 2);
             LobbyPlayersList = new List<String>();

@@ -93,6 +93,27 @@ namespace RoyalServer
                     nearobj.Add(block);
                 }
             }
+            foreach (var a in game.Cannonlist)
+            {
+                Vector2 Mob_Position = ConvertUnits.ToDisplayUnits(body.Position);
+                double formDistance = (double)((Player_Position.X - Mob_Position.X) * (Player_Position.X - Mob_Position.X) + (Player_Position.Y - Mob_Position.Y) * (Player_Position.Y - Mob_Position.Y));
+                float distance = (float)Math.Sqrt((double)formDistance);
+                if (distance < 500)
+                {
+                    nearobj.Add(a);
+                }
+            }
+            foreach (var a in game.bulletlist.ToArray())
+            {
+                Vector2 Mob_Position = ConvertUnits.ToDisplayUnits(body.Position);
+                double formDistance = (double)((Player_Position.X - Mob_Position.X) * (Player_Position.X - Mob_Position.X) + (Player_Position.Y - Mob_Position.Y) * (Player_Position.Y - Mob_Position.Y));
+                float distance = (float)Math.Sqrt((double)formDistance);
+                if (distance < 500)
+                {
+                    nearobj.Add(a);
+                }
+            }
+      
         }
         public void MoveButtons()
         {
